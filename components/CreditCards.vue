@@ -108,8 +108,16 @@
             </v-alert>
           </v-card-text>
           <v-card-text v-else>
-            <v-alert v-if="addError" type="error" class="mb-0">
+            <v-alert v-if="addError" type="error" class="mb-0" text>
               {{ addError }}
+            </v-alert>
+            <v-alert v-else-if="!$stripe" type="error" class="mb-0" text>
+              <p>
+                The form could not be loaded. Please disable any browser
+                extensions that block scripts and try again.
+              </p>
+
+              <p class="mb-0">If the problem persists, please contact us.</p>
             </v-alert>
             <template v-else>
               <v-form ref="form" v-model="valid">
@@ -141,7 +149,7 @@
             <v-btn
               v-if="user.stripeCustomer"
               :loading="(stripeLoading || saving) && !addError"
-              :disabled="!!addError"
+              :disabled="!!addError || !$stripe"
               color="accent"
               text
               @click="save"
@@ -189,7 +197,7 @@ export default {
       stripeCard: null,
       stripeClientSecret: null,
       stripeError: false,
-      stripeLoading: true,
+      stripeLoading: false,
       success: false,
       valid: true,
     }
@@ -228,6 +236,12 @@ export default {
       }
     },
     async addDialog(isOpen) {
+      if (!this.$stripe) {
+        this.stripeError = 'Failed to load'
+
+        return
+      }
+
       if (this.stripeCard) {
         this.stripeCard.unmount()
       }

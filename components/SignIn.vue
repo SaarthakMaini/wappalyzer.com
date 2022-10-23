@@ -80,13 +80,18 @@
           hide-details
         />
 
-        <v-alert
-          v-if="mode === 'signUp'"
-          color="secondary"
-          class="mx-n6 px-6 mb-4"
-        >
-          <recaptcha v-if="mode === 'signUp'" />
-        </v-alert>
+        <template v-if="mode === 'signUp'">
+          <v-alert v-if="captchaError" type="error" text>
+            {{ captchaError }}
+          </v-alert>
+          <v-alert v-else color="secondary" class="mx-n6 px-6 mb-4">
+            <div v-if="captchaLoading" class="text-center">
+              <Spinner />
+            </div>
+
+            <recaptcha />
+          </v-alert>
+        </template>
 
         <v-text-field
           v-if="
@@ -105,7 +110,7 @@
 
         <template v-if="mode === 'signUp'">
           <v-btn
-            :disabled="!valid"
+            :disabled="!valid || captchaError"
             :loading="signingUp"
             type="submit"
             color="primary"
@@ -234,7 +239,12 @@
 import { mapState, mapActions } from 'vuex'
 import { mdiEye, mdiEyeOff } from '@mdi/js'
 
+import Spinner from '~/components/Spinner.vue'
+
 export default {
+  components: {
+    Spinner,
+  },
   props: {
     fluid: {
       type: Boolean,
@@ -274,8 +284,12 @@ export default {
         : this.modeConfirm
         ? 'confirm'
         : 'signIn',
+      captchaLoading: true,
       error: '',
       nextError: '',
+      captchaError: '',
+      captchaError: '',
+      captchaError: '',
       subscribe: false,
       success: '',
       mdiEye,
@@ -321,6 +335,28 @@ export default {
       this.nextSuccess = ''
       this.nextError = ''
     },
+  },
+  async mounted() {
+    try {
+      await Promise.race([
+        this.$recaptcha.init(),
+        new Promise((resolve, reject) =>
+          setTimeout(
+            () =>
+              reject(
+                new Error(
+                  'Captcha failed to load. Please disable any extensions that block scripts and try again. If the problem perists, contact us.'
+                )
+              ),
+            5000
+          )
+        ),
+      ])
+    } catch (error) {
+      this.captchaError = this.getErrorMessage(error)
+    }
+
+    this.captchaLoading = false
   },
   methods: {
     ...mapActions({

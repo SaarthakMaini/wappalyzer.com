@@ -287,9 +287,7 @@ export default {
       captchaLoading: true,
       error: '',
       nextError: '',
-      captchaError: '',
-      captchaError: '',
-      captchaError: '',
+      captchaError: false,
       subscribe: false,
       success: '',
       mdiEye,
@@ -415,7 +413,7 @@ export default {
       } catch (error) {
         this.signingUp = false
 
-        this.error = 'Are you a robot?'
+        this.error = 'Captcha verification failed. Are you a robot?'
 
         return
       }

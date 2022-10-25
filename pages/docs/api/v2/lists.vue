@@ -561,6 +561,7 @@
     "email",
   ],
   "callbackUrl": "https://yourdomain/wappalyzer",
+  "format": "csv",
   "totalCredits": 1000,
   "url": null,
   "sampleUrl": "https://lists.wappalyzer.com/wappalyzer-29ddddaa-4949-4217-86a7-f6a407e5853d-lst_abcdef-5ukjhs-sample.zip",
@@ -977,6 +978,17 @@
                 <p>
                   Callback URL that's notified when the list is ready, e.g.
                   <code>https://yourdomain.com/wappalyzer</code>.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>format</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  Output file format, one of <code>csv</code> (default) or
+                  <code>json</code>.
                 </p>
               </td>
             </tr>

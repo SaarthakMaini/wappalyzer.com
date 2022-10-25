@@ -170,7 +170,12 @@
 
           <template v-if="['Ready', 'Complete'].includes(list.status)">
             <v-expansion-panels
-              v-if="list.query.technologies.length"
+              v-if="
+                list.query.technologies.length &&
+                list.query.technologies.some(
+                  ({ sample }) => sample && sample.length
+                )
+              "
               v-model="panelIndex"
               class="mb-6"
             >
@@ -227,6 +232,10 @@
                 <ListSample :sample="list.query.sample" />
               </v-card-text>
             </v-card>
+
+            <v-alert v-else color="secondary" class="mb-4 py-6 text--disabled">
+              Preview not available.
+            </v-alert>
           </template>
 
           <v-btn

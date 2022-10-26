@@ -35,4 +35,5 @@ jobs:
     - name: Invalidate caches
       env:
         BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
-      run: curl --request POST --url "https://api.bunny.net/purge?url=https://www.wappalyzer.com/*" --header "AccessKey: $BUNNY_API_KEY"
+      run: |
+        curl --request POST --url "https://api.bunny.net/purge?url=https://www.wappalyzer.com/*" --header "AccessKey: $BUNNY_API_KEY"

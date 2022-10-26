@@ -33,4 +33,6 @@ jobs:
       run: yarn deploy:v2
 
     - name: Invalidate caches
-      run: curl --request POST --url 'https://www.wappalyzer.com/*' --header 'AccessKey: ${{ secrets.BUNNY_API_KEY }}'
+      env:
+        BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+      run: curl --request POST --url 'https://www.wappalyzer.com/*' --header 'AccessKey: $BUNNY_API_KEY'

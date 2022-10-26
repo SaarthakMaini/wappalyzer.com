@@ -28,9 +28,9 @@ jobs:
 
     - name: Install dependencies
       run: yarn install
-      
+
     - name: Deploy
       run: yarn deploy:v2
 
     - name: Invalidate caches
-      run: aws cloudfront create-invalidation --distribution-id EZV00Y2P3H5W --paths "/*"
+      run: curl --request POST --url 'https://www.wappalyzer.com/*' --header 'AccessKey: ${{ secrets.BUNNY_API_KEY }}'

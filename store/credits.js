@@ -1,5 +1,6 @@
 export const state = () => ({
   loading: true,
+  error: false,
   credits: null,
   freeLists: { total: null, remaining: null, availableAt: null },
   plus: false,
@@ -30,6 +31,9 @@ export const mutations = {
   setAutoTopUp(state, autoTopUp) {
     state.autoTopUp = autoTopUp
   },
+  setError(state, error) {
+    state.error = error
+  },
 }
 
 export const actions = {
@@ -47,6 +51,7 @@ export const actions = {
       commit('setPro', pro)
       commit('setAutoTopUp', autoTopUp)
       commit('setLoading', false)
+      commit('setError', false)
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -61,6 +66,7 @@ export const actions = {
         credits: 0,
       })
       commit('setLoading', false)
+      commit('setError', 'Error loading balance')
     }
   },
   reset({ commit }) {
@@ -74,5 +80,6 @@ export const actions = {
       credits: 0,
     })
     commit('setLoading', false)
+    commit('setError', false)
   },
 }

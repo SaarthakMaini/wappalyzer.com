@@ -324,7 +324,7 @@ export default {
     }),
   },
   watch: {
-    mode() {
+    async mode() {
       this.$refs.form.resetValidation()
 
       this.success = this.nextSuccess
@@ -332,6 +332,13 @@ export default {
 
       this.nextSuccess = ''
       this.nextError = ''
+
+      this.captchaLoading = true
+
+      await this.$recaptcha.destroy()
+      await this.$recaptcha.init()
+
+      this.captchaLoading = false
     },
   },
   async mounted() {
@@ -413,7 +420,7 @@ export default {
       } catch (error) {
         this.signingUp = false
 
-        this.error = 'Captcha verification failed. Are you a robot?'
+        this.error = 'Captcha verification failed. Please contact us.'
 
         return
       }

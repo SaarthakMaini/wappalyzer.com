@@ -306,12 +306,10 @@ export default {
   },
   watch: {
     user() {
-      console.log(this.user)
       this.fill()
     },
   },
   beforeMount() {
-    console.log(this.user)
     this.fill()
   },
   methods: {

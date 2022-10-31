@@ -210,7 +210,7 @@
             <v-card-title class="subtitle-2">Upload your list</v-card-title>
             <v-card-text>
               <p class="mb-6">
-                Upload a .txt file with up to 100,000 email addresses, each on a
+                Upload a .txt file with up to 10,000 email addresses, each on a
                 separate line.
               </p>
 
@@ -324,7 +324,6 @@ import {
 } from '@mdi/js'
 
 import Page from '~/components/Page.vue'
-import Credits from '~/components/Credits.vue'
 import SignIn from '~/components/SignIn.vue'
 import Logos from '~/components/Logos.vue'
 import { verify as meta } from '~/assets/json/meta.json'
@@ -332,7 +331,6 @@ import { verify as meta } from '~/assets/json/meta.json'
 export default {
   components: {
     Page,
-    Credits,
     SignIn,
     Logos,
   },
@@ -654,8 +652,8 @@ export default {
 
       this.fileErrors = this.fileErrors.slice(0, 10)
 
-      if (this.file.length > 100000) {
-        this.fileErrors.push('Limit of 100,000 email addresses exceeded')
+      if (this.file.length > 10000) {
+        this.fileErrors.push('Limit of 10,000 email addresses exceeded')
       }
 
       this.file = this.file.join('\n')

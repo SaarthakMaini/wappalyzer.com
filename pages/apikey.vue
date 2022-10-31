@@ -15,7 +15,7 @@
     </p>
 
     <template v-if="!loading">
-      <v-btn href="/docs/api" class="mb-4" depressed>
+      <v-btn href="/docs/api/" class="mb-4" depressed>
         <v-icon left>
           {{ mdiBookOpenPageVariant }}
         </v-icon>

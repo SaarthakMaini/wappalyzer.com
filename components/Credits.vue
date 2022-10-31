@@ -1,14 +1,10 @@
 <template>
-  <v-card
-    v-if="isSignedIn"
-    :color="variant ? 'primary lighten-1' : ''"
-    :class="variant ? 'mb-4' : ''"
-    flat
-  >
-    <v-card-title v-if="variant" class="subtitle-2 primary--text">
-      Balances
-    </v-card-title>
-    <v-card-text v-if="variant">
+  <v-card v-if="isSignedIn" color="primary lighten-1" class="mb-4" flat>
+    <v-card-title class="subtitle-2 primary--text">Balances</v-card-title>
+    <v-card-text v-if="error">
+      <v-alert color="error" class="mb-0" text>{{ error }}</v-alert>
+    </v-card-text>
+    <v-card-text v-else>
       <v-row align="center" class="py-2 primary--text">
         <v-col class="py-0">Credits</v-col>
         <v-col class="py-0 text-right">
@@ -57,39 +53,6 @@
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-text v-else class="py-0 pr-3">
-      <v-row align="center">
-        <v-col class="py-0 text-right pr-0 flex-grow-1 flex-shrink-0">
-          <small>
-            Credit balance:
-            <span v-if="isLoading" class="ml-2">
-              <Spinner />
-            </span>
-            <span v-else class="font-weight-medium">
-              {{ formatNumber(credits) }}
-            </span>
-          </small>
-        </v-col>
-        <v-col
-          class="
-            py-0
-            pr-0
-            text-right
-            font-weight-medium
-            flex-grow-0 flex-shrink-1
-          "
-        >
-          <v-btn
-            color="primary primary--text lighten-1"
-            :to="{ path: '/credits', query: { buy: true } }"
-            depressed
-            small
-          >
-            Buy credits
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-card-text>
   </v-card>
 </template>
 
@@ -103,12 +66,6 @@ export default {
   components: {
     Spinner,
   },
-  props: {
-    variant: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data() {
     return {
       mdiCalendarBlank,
@@ -120,6 +77,7 @@ export default {
       isSignedIn: ({ user }) => user.isSignedIn,
       isLoading: ({ user, credits }) => user.loading || credits.loading,
       credits: ({ credits: { credits } }) => credits,
+      error: ({ credits: { error } }) => error,
       freeLists: ({ credits: { freeLists } }) => freeLists,
     }),
   },

@@ -19,7 +19,7 @@
       <SignIn v-else-if="secure && !isSignedIn" class="px-2" mode-continue />
       <v-row v-else-if="sideNav.length">
         <v-col cols="12" sm="4" lg="3" order="2" order-sm="0">
-          <Credits v-if="secure && isSignedIn" variant />
+          <Credits v-if="secure && isSignedIn" />
 
           <SideNav :items="sideNav" />
 

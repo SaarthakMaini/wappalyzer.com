@@ -140,6 +140,19 @@
                 {{ stripeError }}
               </small>
             </template>
+
+            <v-alert
+              v-if="stripeError"
+              color="accent"
+              dense
+              text
+              class="mt-2 mb-0"
+            >
+              <small
+                >Need help?
+                <a href="#" @click.prevent="chat">Chat with us</a>.</small
+              >
+            </v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -149,7 +162,7 @@
             <v-btn
               v-if="user.stripeCustomer"
               :loading="(stripeLoading || saving) && !addError"
-              :disabled="!!addError || !$stripe"
+              :disabled="!!addError || !!stripeError || !$stripe"
               color="accent"
               text
               @click="save"
@@ -164,6 +177,8 @@
 </template>
 
 <script>
+/* globals $crisp */
+
 import { mapState } from 'vuex'
 import { mdiCreditCardPlusOutline, mdiCreditCardRemoveOutline } from '@mdi/js'
 
@@ -364,6 +379,9 @@ export default {
       }
 
       this.removing = false
+    },
+    chat() {
+      $crisp.push(['do', 'chat:open'])
     },
   },
 }

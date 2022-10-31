@@ -128,7 +128,7 @@
         "event": "product-cta-verify-api"
       }
     ],
-    "features": ["Instant results", "50 Free monthly verifications", "Perform up to 100,000 verifications at once"],
+    "features": ["Instant results", "50 Free monthly verifications", "Perform up to 10,000 verifications at once"],
     "feature": true
   }
 }

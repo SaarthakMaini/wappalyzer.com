@@ -2,7 +2,7 @@
   "creditsPerUnit": {
     "list": { "name": "Lead lists", "to": "/lists/", "units": [ { "unit": "Websites", "per": "website", "credits": 1, "min": 500, "max": 1000000 } ], "minPrice": 5000 },
     "lookup": { "name": "Technology lookup", "to": "/lookup/", "units": [ { "unit": "Websites", "per": "website", "credits": 1, "max": 100000 }, { "unit": "Websites", "per": "live scan", "credits": 2, "max": 10000 } ] },
-    "verify": { "name": "Email verification", "to": { "path": "/verify/" }, "units": [ { "unit": "Email addresses", "per": "email address", "credits": 1, "max": 100000 } ] },
+    "verify": { "name": "Email verification", "to": { "path": "/verify/" }, "units": [ { "unit": "Email addresses", "per": "email address", "credits": 1, "max": 10000 } ] },
     "alert": { "name": "Alerts", "to": "/alerts/", "units": [ { "unit": "Websites", "per": "alert every 30 days", "credits": 5 } ] }
   },
   "creditTiers": {

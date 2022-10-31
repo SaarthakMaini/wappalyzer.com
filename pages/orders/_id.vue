@@ -104,9 +104,9 @@
           (order.status === 'Pending' && order.invoiceUrl) ||
           order.status === 'Complete'
         "
-        :href="order.status === 'Pending' && order.invoiceUrl"
-        :to="order.status === 'Complete' && `/invoices/${order.id}`"
-        :target="order.status === 'Pending' && '_blank'"
+        :href="order.status === 'Pending' ? order.invoiceUrl : undefined"
+        :to="order.status === 'Complete' ? `/invoices/${order.id}` : undefined"
+        :target="order.status === 'Pending' ? '_blank' : undefined"
         class="mr-2 mb-4"
         depressed
       >

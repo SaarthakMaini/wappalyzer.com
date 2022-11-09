@@ -154,7 +154,6 @@
           "
         >
           <v-btn
-            :disabled="!valid"
             :loading="verifying"
             type="submit"
             color="primary"
@@ -181,7 +180,7 @@
             v-if="mode !== 'verifySignUp' && mode !== 'verifySignIn'"
             class="mt-4"
           >
-            <a @click.prevent="mode = 'signIn'"> Sign in </a>
+            <a @click.prevent="mode = 'signIn'">Sign in</a>
           </div>
         </template>
         <template v-else-if="mode === 'verifyReset'">
@@ -444,7 +443,7 @@ export default {
           })
 
           this.mode = 'verifySignUp'
-          this.nextSuccess = 'Please check your email for a verification code'
+          this.nextSuccess = `Please check your email (${this.email}) for a verification code`
         } catch (error) {
           this.error = error.message || error.toString()
         }
@@ -478,7 +477,7 @@ export default {
           await this.reset({ username: this.email })
 
           this.mode = 'verifyReset'
-          this.nextSuccess = 'Please check your email for a verification code'
+          this.nextSuccess = `Please check your email (${this.email}) for a verification code`
         } catch (error) {
           this.error = error.message || error.toString()
         }
@@ -538,7 +537,7 @@ export default {
           await this.reverifySignUp({ username: this.email })
         }
 
-        this.success = 'Please check your email for a verification code'
+        this.success = `Please check your email (${this.email}) for a verification code`
       } catch (error) {
         this.error = error.message || error.toString()
       }

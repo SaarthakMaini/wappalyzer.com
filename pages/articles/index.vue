@@ -33,6 +33,13 @@ export default {
       articles: [
         {
           title:
+            'Five ways to use Wappalyzer and HubSpot to amplify sales activities and find new marketing channels',
+          intro:
+            "Using the Wappalyzer integration with HubSpot, you can automatically enrich data for leads and access sales intelligence. If you're a sales and marketing professional, a SaaS company team member, or an agency, see how Wappalyzer and HubSpot can speed up your sales process and help remove manual research from your workflows.",
+          to: '/articles/how-to-use-wappalyzer-and-hubspot/',
+        },
+        {
+          title:
             'Email deliverability: how to prepare your inbox & build a lead list',
           intro:
             'Preparing your inbox for good email deliverability can be a daunting task. To make the process as easy as possible, we are going to break down the steps for you. Here are some of the most important factors to keep in mind when preparing your inbox for email deliverability.',

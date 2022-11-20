@@ -1,6 +1,6 @@
 {
   "attrs": {
-    "pro": { "text": "PRO features", "type": "pro", "description": ["• Create and export lead lists" , "• Access company and contact details in all data products", "• CRM integration (HubSpot, Pipedrive)", "• More" ], "to": "/pro" },
+    "pro": { "text": "PRO features", "type": "pro", "description": ["• Create and export lead lists" , "• Access company and contact details in all data products", "• CRM integration (Salesforce, HubSpot, Pipedrive)", "• More" ], "to": "/pro" },
     "users": { "text": "Users", "type": "number", "description": ["Number of users who can access the account with their own login."] },
     "credits": { "text": "Credits / mo", "type": "credits", "description": ["Credits can be spent on lead lists, technology lookups and APIs. See 'credit usage' below."] },
     "lists": { "text": "Lead lists", "type": "small", "description": ["Free lists include:", "• Lead lists (any technology, up to 500K sites)", "• Technology lookup (up to 100K sites)", "• Email verification (up to 10K addresses)", "", "Create more lists using the included credits. See 'credit usage' below."] },

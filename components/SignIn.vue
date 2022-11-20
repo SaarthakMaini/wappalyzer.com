@@ -182,6 +182,14 @@
           >
             <a @click.prevent="mode = 'signIn'">Sign in</a>
           </div>
+
+          <div v-if="mode === 'verifySignIn'" class="mt-4">
+            <a @click.prevent="mode = 'signIn'">Back to sign in</a>
+          </div>
+
+          <div v-if="mode === 'verifySignUp'" class="mt-4">
+            <a @click.prevent="mode = 'signUp'">Back to sign up</a>
+          </div>
         </template>
         <template v-else-if="mode === 'verifyReset'">
           <v-btn
@@ -323,7 +331,7 @@ export default {
     }),
   },
   watch: {
-    async mode() {
+    mode() {
       this.$refs.form.resetValidation()
 
       this.success = this.nextSuccess
@@ -332,35 +340,11 @@ export default {
       this.nextSuccess = ''
       this.nextError = ''
 
-      this.captchaLoading = true
-
-      await this.$recaptcha.destroy()
-      await this.$recaptcha.init()
-
-      this.captchaLoading = false
+      this.initCaptcha()
     },
   },
-  async mounted() {
-    try {
-      await Promise.race([
-        this.$recaptcha.init(),
-        new Promise((resolve, reject) =>
-          setTimeout(
-            () =>
-              reject(
-                new Error(
-                  'Captcha failed to load. Please disable any extensions that block scripts and try again. If the problem perists, contact us.'
-                )
-              ),
-            5000
-          )
-        ),
-      ])
-    } catch (error) {
-      this.captchaError = this.getErrorMessage(error)
-    }
-
-    this.captchaLoading = false
+  mounted() {
+    this.initCaptcha()
   },
   methods: {
     ...mapActions({
@@ -564,6 +548,38 @@ export default {
 
         this.confirming = false
       }
+    },
+    async initCaptcha() {
+      await this.$recaptcha.destroy()
+
+      this.captchaError = null
+
+      if (this.mode !== 'signUp') {
+        return
+      }
+
+      this.captchaLoading = true
+
+      try {
+        await Promise.race([
+          this.$recaptcha.init(),
+          new Promise((resolve, reject) =>
+            setTimeout(
+              () =>
+                reject(
+                  new Error(
+                    'Captcha failed to load. Please disable any extensions that block scripts and try again. If the problem perists, contact us.'
+                  )
+                ),
+              5000
+            )
+          ),
+        ])
+      } catch (error) {
+        this.captchaError = this.getErrorMessage(error)
+      }
+
+      this.captchaLoading = false
     },
   },
 }

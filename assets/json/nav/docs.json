@@ -77,6 +77,28 @@
     "to": "/docs/integrations/",
     "items": [
       {
+        "title": "Salesforce",
+        "to": "/docs/integrations/salesforce/",
+        "items": [
+          {
+            "title": "Connected app setup",
+            "to": "/docs/integrations/salesforce/#connected-app-setup"
+          },
+          {
+            "title": "Authentication",
+            "to": "/docs/integrations/salesforce/#authentication"
+          },
+          {
+            "title": "Field mappings",
+            "to": "/docs/integrations/salesforce/#field-mappings"
+          },
+          {
+            "title": "Workflow setup",
+            "to": "/docs/integrations/salesforce/#workflow"
+          }
+        ]
+      },
+      {
         "title": "HubSpot",
         "to": "/docs/integrations/hubspot/"
       },

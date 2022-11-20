@@ -86,7 +86,7 @@ export default {
     '~/plugins/vuetify.js',
     '~/plugins/axios.js',
     '~/plugins/mixins.js',
-    { src: '~/plugins/refiner.js', mode: 'client' },
+    // { src: '~/plugins/refiner.js', mode: 'client' },
   ],
   buildModules: [
     '@nuxtjs/svg',

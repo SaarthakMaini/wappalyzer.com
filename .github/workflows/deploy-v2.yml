@@ -36,4 +36,4 @@ jobs:
       env:
         BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
       run: |
-        curl --request POST --url "https://api.bunny.net/purge?url=https://www.wappalyzer.com/*" --header "AccessKey: $BUNNY_API_KEY"
+        curl -X POST "https://api.cloudflare.com/client/v4/zones/e929f76cdc9368236af764af1b39613c/purge_cache" -H "Authorization: Bearer $CLOUDFLARE_API_KEY" -H "Content-Type: application/json" --data "{ \"purge_everything\": true }"

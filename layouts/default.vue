@@ -81,6 +81,7 @@ export default {
 
         this.$gtm.push({ event: 'signIn', userId: this.member.sub })
 
+        /*
         if (this.$refiner) {
           this.$refiner('identifyUser', {
             id: this.member.sub,
@@ -88,6 +89,7 @@ export default {
             name: this.member.name,
           })
         }
+        */
 
         this.$cookies.set('userId', this.member.sub, {
           path: '/',
@@ -126,6 +128,7 @@ export default {
     if (this.isSignedIn) {
       this.$gtm.push({ event: 'signIn', userId: this.member.sub })
 
+      /*
       if (this.$refiner) {
         this.$refiner('identifyUser', {
           id: this.member.sub,
@@ -133,6 +136,7 @@ export default {
           name: this.member.name,
         })
       }
+      */
     }
 
     this.updateUserAttrs()

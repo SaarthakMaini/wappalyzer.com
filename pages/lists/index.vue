@@ -310,7 +310,10 @@
                           health'.
                         </p>
 
-                        <v-form @submit.prevent="addKeyword()">
+                        <v-form
+                          ref="formKeyword"
+                          @submit.prevent="addKeyword()"
+                        >
                           <v-text-field
                             v-model="keyword"
                             :error-messages="keywordErrors"
@@ -2365,8 +2368,6 @@ export default {
       this.tldErrors = []
     },
     addKeyword(keyword = this.keyword) {
-      this.keywordErrors = []
-
       keyword = keyword
         .trim()
         .toLowerCase()
@@ -2378,12 +2379,14 @@ export default {
         return
       }
 
-      if (!this.selected.keywords.includes(keyword)) {
-        this.selected.keywords.push(keyword)
-      }
+      if (!this.$refs.formKeyword || this.$refs.formKeyword.validate()) {
+        if (!this.selected.keywords.includes(keyword)) {
+          this.selected.keywords.push(keyword)
+        }
 
-      this.keyword = ''
-      this.keywordErrors = []
+        this.keyword = ''
+        this.keywordErrors = []
+      }
     },
     removeKeyword(keyword) {
       const index = this.selected.keywords.findIndex(

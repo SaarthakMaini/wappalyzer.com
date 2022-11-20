@@ -23,6 +23,14 @@
     "description": "See the technologies of websites you visit in your browser.",
     "href": "https://apps.apple.com/app/wappalyzer/id1520333300"
   },
+  "salesforce": {
+    "name": "Salesforce",
+    "image": "salesforce.svg",
+    "description": "See the technology stacks of your leads in your CRM.",
+    "settings": "/integrations/salesforce/",
+    "docs": "/docs/integrations/salesforce/",
+    "pro": true
+  },
   "hubspot": {
     "name": "HubSpot",
     "image": "hubspot.svg",

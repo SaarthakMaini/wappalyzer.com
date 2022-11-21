@@ -1393,29 +1393,55 @@
             </v-col>
           </v-row>
 
-          <div class="mb-4">
-            <Tour
-              :step="tourGetStep('createList')"
-              :steps="Object.keys(tourSteps).length"
-              :text="tourGetText('createList')"
-              :active-step="tourActiveStep"
-              @nav="tourNav"
-            >
-              <v-btn
-                :disabled="!selection"
-                :loading="creating"
-                color="primary"
-                large
-                depressed
-                @click="submit()"
+          <v-row class="mb-4">
+            <v-col>
+              <Tour
+                :step="tourGetStep('createList')"
+                :steps="Object.keys(tourSteps).length"
+                :text="tourGetText('createList')"
+                :active-step="tourActiveStep"
+                @nav="tourNav"
               >
-                Create list
-                <v-icon right>
-                  {{ mdiArrowRight }}
-                </v-icon>
-              </v-btn>
-            </Tour>
-          </div>
+                <v-btn
+                  :disabled="!selection"
+                  :loading="creating"
+                  color="primary"
+                  large
+                  depressed
+                  @click="submit()"
+                >
+                  Create list
+                  <v-icon right>
+                    {{ mdiArrowRight }}
+                  </v-icon>
+                </v-btn>
+              </Tour>
+            </v-col>
+
+            <v-col v-if="selection" class="align-center">
+              <v-tooltip max-width="300" top>
+                <template #activator="{ on }">
+                  <div v-on="on">
+                    <Bar
+                      :total="100"
+                      :max="100"
+                      :value="listSizeEstimate"
+                      class="mt-3 mb-2"
+                      dense
+                    />
+                    <div class="d-flex">
+                      <small>Smaller, more targeted list</small>
+                      <v-spacer />
+                      <small>Larger, less targeted list</small>
+                    </div>
+                  </div>
+                </template>
+
+                Estimated effect of selected filters on list size. The more
+                filters you apply, the smaller your list will be.
+              </v-tooltip>
+            </v-col>
+          </v-row>
         </v-form>
       </template>
 
@@ -1552,6 +1578,7 @@ import Logos from '~/components/Logos.vue'
 import SignIn from '~/components/SignIn.vue'
 import FaqDialog from '~/components/FaqDialog.vue'
 import Tour from '~/components/Tour.vue'
+import Bar from '~/components/Bar.vue'
 import { lists as meta } from '~/assets/json/meta.json'
 import languages from '~/assets/json/languages.json'
 import tlds from '~/assets/json/tlds.json'
@@ -1570,6 +1597,7 @@ export default {
     SignIn,
     FaqDialog,
     Tour,
+    Bar,
   },
   data() {
     return {
@@ -1595,6 +1623,7 @@ export default {
       inputFile: null,
       keyword: '',
       keywordErrors: [],
+      listSizeEstimate: 100,
       matchAny: false,
       matchAllTechnologies: 'or',
       mdiCalculator,
@@ -2524,6 +2553,38 @@ export default {
           }, {}),
         })
       }, 100)
+
+      // Estimate list size
+      this.listSizeEstimate = 100
+
+      //
+      ;['geoIps', 'languages', 'tlds', 'industries', 'companySizes'].forEach(
+        (key) => {
+          const count = this.selected[key].length
+
+          this.listSizeEstimate /= count ? 8 - Math.min(15, count) * 0.5 : 1
+        }
+      )
+
+      const required = Object.keys(this.selected.sets).filter(
+        (key) => this.selected.sets[key] === 'required'
+      ).length
+
+      this.listSizeEstimate /= required ? 1 + required * 1 : 1
+
+      const keywords = this.selected.keywords.length
+
+      if (this.selected.technologies.length && keywords) {
+        this.listSizeEstimate /= keywords ? 8 - Math.min(15, keywords) * 0.5 : 1
+      }
+
+      const age = Math.max(0, 3 - Math.min(3, this.maxAge - this.minAge))
+
+      this.listSizeEstimate /= age ? 1 + age * 0.5 : 1
+
+      this.listSizeEstimate /= this.excludeNoTraffic ? 1.8 : 1
+
+      this.listSizeEstimate /= this.matchAllTechnologies === 'or' ? 1 : 8
     },
     async fillForm(query) {
       if (query) {

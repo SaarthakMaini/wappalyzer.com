@@ -33,6 +33,13 @@ export default {
       articles: [
         {
           title:
+            'Technographics, the next frontier for the ideal customer profile (ICP)',
+          intro:
+            "If you're part of a mature go-to-market organization, you likely have a good handle on your ideal customer profile (ICP), as it's traditionally defined. You appreciate how much a well-defined ICP affects sales efficiency. However, there's a blind spot in the ICP development process that many orgs have yet to build out.",
+          to: '/articles/technographics-next-frontier-for-icp/',
+        },
+        {
+          title:
             'Five ways to use Wappalyzer and HubSpot to amplify sales activities and find new marketing channels',
           intro:
             "Using the Wappalyzer integration with HubSpot, you can automatically enrich data for leads and access sales intelligence. If you're a sales and marketing professional, a SaaS company team member, or an agency, see how Wappalyzer and HubSpot can speed up your sales process and help remove manual research from your workflows.",

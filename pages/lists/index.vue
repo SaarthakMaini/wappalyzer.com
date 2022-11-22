@@ -55,7 +55,7 @@
         </p>
       </div>
 
-      <div class="mt-6 mb-8"></div>
+      <div class="mt-6 mb-10"></div>
 
       <template #content>
         <v-form ref="form">

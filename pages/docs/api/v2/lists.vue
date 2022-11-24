@@ -355,6 +355,17 @@
             </tr>
             <tr>
               <td>
+                <code>rootPath</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  Only include websites that have the selected technology on the
+                  root path (typically the homepage).
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <code>subset</code>
               </td>
               <td class="pt-4">
@@ -549,6 +560,7 @@
   "tlds": [ ".com" ],
   "matchCountryLanguage": false,
   "matchTechnologies": "or",
+  "rootPath": false,
   "subset": 1000,
   "subsetSlice": 0,
   "minAge": 0,
@@ -849,6 +861,17 @@
                   <code>or</code> (match any), <code>and</code> (match all) or
                   <code>not</code> (match the first technology, exclude all
                   others).
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>rootPath</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  Only include websites that have the selected technology on the
+                  root path (typically the homepage).
                 </p>
               </td>
             </tr>

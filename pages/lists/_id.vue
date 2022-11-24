@@ -732,6 +732,14 @@
                           </template>
                         </td>
                       </tr>
+                      <tr v-if="list.query.rootPath">
+                        <th width="40%">On homepage</th>
+                        <td>
+                          <v-icon color="primary">
+                            {{ mdiCheckboxMarked }}
+                          </v-icon>
+                        </td>
+                      </tr>
                       <tr
                         v-if="
                           list.query.technologies.length &&
@@ -1320,6 +1328,7 @@ export default {
         sizes: this.list.query.companySizes.length
           ? this.list.query.companySizes.map(({ value }) => value)
           : undefined,
+        home: this.list.query.rootPath ? '1' : undefined,
         subset:
           this.list.query.subset && this.list.query.subset !== 500000
             ? this.list.query.subset.toString()

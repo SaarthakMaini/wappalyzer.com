@@ -5,7 +5,9 @@
     "attributes": [
       { "name": "website URLs", "key": "url", "description": "The website's address." },
       { "key": "versions", "description": "Technology version number, e.g. '1.0.0'." },
-      { "name": "traffic rank", "key": "trafficRank", "description": "Relative indicator of website traffic. Higher means more traffic." }
+      { "name": "traffic rank", "key": "trafficRank", "description": "Relative indicator of website traffic. Higher means more traffic." },
+      { "name": "On homepage", "key": "rootPath", "description": "The technology was found on the website's homepage." },
+      { "name": "Verified at", "key": "updatedAt", "description": "The date the technology was last verified to be present on the website." }
     ]
   },
   {

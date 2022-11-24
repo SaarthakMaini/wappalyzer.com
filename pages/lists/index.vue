@@ -82,13 +82,15 @@
                     <v-expansion-panel-header class="subtitle-2">
                       Technologies
                     </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <p>
-                        Choose one or more technologies (e.g. 'Shopify') or
-                        categories (e.g. 'Ecommerce').
-                      </p>
+                    <v-expansion-panel-content class="no-x-padding">
+                      <div class="mx-6">
+                        <p>
+                          Choose one or more technologies (e.g. 'Shopify') or
+                          categories (e.g. 'Ecommerce').
+                        </p>
 
-                      <Technologies ref="selector" @select="selectItem" />
+                        <Technologies ref="selector" @select="selectItem" />
+                      </div>
 
                       <template v-if="selectedItems.length">
                         <Tour
@@ -98,10 +100,7 @@
                           :active-step="tourActiveStep"
                           @nav="tourNav"
                         >
-                          <v-simple-table
-                            class="mx-n6 pt-0"
-                            style="max-width: none"
-                          >
+                          <v-simple-table class="pt-0">
                             <tbody>
                               <tr>
                                 <th class="pl-6">Technology</th>
@@ -196,15 +195,63 @@
                       </template>
 
                       <template v-if="selectedItems.length == 2">
-                        <v-divider class="mx-n6 mb-6" />
+                        <v-divider class="mb-6" />
 
-                        <Tour
-                          :step="tourGetStep('technologiesMultiple')"
-                          :steps="Object.keys(tourSteps).length"
-                          :text="tourGetText('technologiesMultiple')"
-                          :active-step="tourActiveStep"
-                          @nav="tourNav"
-                        >
+                        <div class="mx-6">
+                          <Tour
+                            :step="tourGetStep('technologiesMultiple')"
+                            :steps="Object.keys(tourSteps).length"
+                            :text="tourGetText('technologiesMultiple')"
+                            :active-step="tourActiveStep"
+                            @nav="tourNav"
+                          >
+                            Create a list of websites that use...
+                            <v-radio-group
+                              v-model="matchAllTechnologies"
+                              class="mb-2"
+                              hide-details
+                            >
+                              <v-radio class="mt-0" value="or" hide-details>
+                                <template #label>
+                                  <div>
+                                    {{ selectedItems[0].name }}
+                                    <strong>or</strong>
+                                    {{ selectedItems[1].name }}
+                                  </div>
+                                </template>
+                              </v-radio>
+                              <v-radio
+                                v-if="!selected.categories.length"
+                                class="mt-0"
+                                value="and"
+                                hide-details
+                              >
+                                <template #label>
+                                  <div>
+                                    {{ selectedItems[0].name }}
+                                    <strong>and</strong>
+                                    {{ selectedItems[1].name }}
+                                  </div>
+                                </template>
+                              </v-radio>
+                              <v-radio class="mt-0" value="not" hide-details>
+                                <template #label>
+                                  <div>
+                                    {{ selectedItems[0].name }} and
+                                    <strong>not</strong>
+                                    {{ selectedItems[1].name }}
+                                  </div>
+                                </template>
+                              </v-radio>
+                            </v-radio-group>
+                          </Tour>
+                        </div>
+                      </template>
+
+                      <template v-if="selectedItems.length > 2">
+                        <v-divider class="mb-6" />
+
+                        <div class="mx-6">
                           Create a list of websites that use...
                           <v-radio-group
                             v-model="matchAllTechnologies"
@@ -214,23 +261,21 @@
                             <v-radio class="mt-0" value="or" hide-details>
                               <template #label>
                                 <div>
-                                  {{ selectedItems[0].name }}
-                                  <strong>or</strong>
-                                  {{ selectedItems[1].name }}
+                                  <strong>Any</strong> of the selected
+                                  technologies
                                 </div>
                               </template>
                             </v-radio>
                             <v-radio
-                              v-if="!selected.categories.length"
+                              v-if="selectedItems.length <= 3"
                               class="mt-0"
                               value="and"
                               hide-details
                             >
                               <template #label>
                                 <div>
-                                  {{ selectedItems[0].name }}
-                                  <strong>and</strong>
-                                  {{ selectedItems[1].name }}
+                                  <strong>All</strong> of the selected
+                                  technologies
                                 </div>
                               </template>
                             </v-radio>
@@ -239,54 +284,32 @@
                                 <div>
                                   {{ selectedItems[0].name }} and
                                   <strong>not</strong>
-                                  {{ selectedItems[1].name }}
+                                  any of the other selected technologies
                                 </div>
                               </template>
                             </v-radio>
                           </v-radio-group>
-                        </Tour>
+                        </div>
                       </template>
 
-                      <template v-if="selectedItems.length > 2">
-                        <v-divider class="mx-n6 mb-6" />
+                      <template v-if="selectedItems.length">
+                        <v-divider class="mt-4 mb-n1" />
 
-                        Create a list of websites that use...
-                        <v-radio-group
-                          v-model="matchAllTechnologies"
-                          class="mb-2"
-                          hide-details
-                        >
-                          <v-radio class="mt-0" value="or" hide-details>
-                            <template #label>
-                              <div>
-                                <strong>Any</strong> of the selected
-                                technologies
-                              </div>
-                            </template>
-                          </v-radio>
-                          <v-radio
-                            v-if="selectedItems.length <= 3"
-                            class="mt-0"
-                            value="and"
-                            hide-details
+                        <div class="mx-6">
+                          <Tour
+                            :step="tourGetStep('technologiesRootPath')"
+                            :steps="Object.keys(tourSteps).length"
+                            :text="tourGetText('technologiesRootPath')"
+                            :active-step="tourActiveStep"
+                            @nav="tourNav"
                           >
-                            <template #label>
-                              <div>
-                                <strong>All</strong> of the selected
-                                technologies
-                              </div>
-                            </template>
-                          </v-radio>
-                          <v-radio class="mt-0" value="not" hide-details>
-                            <template #label>
-                              <div>
-                                {{ selectedItems[0].name }} and
-                                <strong>not</strong>
-                                any of the other selected technologies
-                              </div>
-                            </template>
-                          </v-radio>
-                        </v-radio-group>
+                            <v-checkbox
+                              v-model="rootPath"
+                              label="Technology must be present on homepage"
+                              hide-details
+                            />
+                          </Tour>
+                        </div>
                       </template>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
@@ -1657,6 +1680,7 @@ export default {
       panelsFilters: [],
       loading: false,
       removeInvalid: false,
+      rootPath: false,
       signInDialog: false,
       selectedCountry: '',
       selectedLanguage: {},
@@ -1699,6 +1723,14 @@ export default {
           text: 'When selecting multiple technologies, you can combine them in different ways.',
           before: async () => {
             await this.fillForm({ technologies: 'shopify,paypal' })
+
+            await new Promise((resolve) => setTimeout(resolve, 700))
+          },
+        },
+        technologiesRootPath: {
+          text: 'Technologies may be found anywhere on the website. Select this option to only include results that have the selected technology on the hompage.',
+          before: async () => {
+            await this.fillForm({ technologies: 'shopify', home: '1' })
 
             await new Promise((resolve) => setTimeout(resolve, 700))
           },
@@ -2003,6 +2035,9 @@ export default {
       },
       deep: true,
     },
+    rootPath() {
+      this.updateQuery()
+    },
     subset() {
       this.updateQuery()
     },
@@ -2133,6 +2168,7 @@ export default {
                   this.matchAllTechnologies === 'not')
                   ? this.matchAllTechnologies
                   : 'or',
+              rootPath: this.rootPath || false,
               subset: this.subset || 500000,
               subsetSlice: this.subsetSlice || 0,
               excludeNoTraffic: this.excludeNoTraffic,
@@ -2504,6 +2540,7 @@ export default {
           languages: this.selected.languages
             .map(({ value }) => value)
             .join(','),
+          home: this.rootPath ? '1' : '',
           subset:
             this.subset && this.subset !== 500000
               ? this.subset.toString()
@@ -2585,6 +2622,8 @@ export default {
       this.listSizeEstimate /= this.excludeNoTraffic ? 1.8 : 1
 
       this.listSizeEstimate /= this.matchAllTechnologies === 'or' ? 1 : 8
+
+      this.listSizeEstimate /= this.rootPath ? 1.5 : 1
     },
     async fillForm(query) {
       if (query) {
@@ -2602,6 +2641,7 @@ export default {
         min,
         max,
         from,
+        home,
         subset,
         traffic,
         notraffic,
@@ -2639,6 +2679,8 @@ export default {
       if (this.fromDate) {
         this.enableFromDate = true
       }
+
+      this.rootPath = home === '1'
 
       this.subset =
         typeof subset === 'undefined'

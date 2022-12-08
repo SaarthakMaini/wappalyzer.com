@@ -226,7 +226,10 @@
               </v-expansion-panel>
             </v-expansion-panels>
 
-            <v-card v-else-if="list.query.keywords.length" class="mb-6">
+            <v-card
+              v-else-if="list.query.keywords.length || list.query.tlds.length"
+              class="mb-6"
+            >
               <v-card-title>Sample</v-card-title>
               <v-card-text class="px-0 pb-0">
                 <ListSample :sample="list.query.sample" />

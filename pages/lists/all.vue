@@ -161,6 +161,25 @@
                               (+{{ list.keywords.length - 10 }} more)
                             </v-chip>
                           </v-chip-group>
+                          <v-chip-group v-else-if="list.tlds.length" column>
+                            <v-chip
+                              v-for="tld in list.tlds.slice(0, 10)"
+                              :key="tld"
+                              small
+                              outlined
+                              label
+                            >
+                              {{ tld }}
+                            </v-chip>
+                            <v-chip
+                              v-if="list.tlds.length > 10"
+                              small
+                              outlined
+                              label
+                            >
+                              (+{{ list.tlds.length - 10 }} more)
+                            </v-chip>
+                          </v-chip-group>
                         </td>
                         <td v-if="list.status === 'Calculating'">
                           <Spinner />

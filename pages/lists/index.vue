@@ -1292,7 +1292,7 @@
                                   v < maxAge || 'Must be lower than max age',
                               ]"
                               :persistent-hint="minAge > 0"
-                              hide-details="auto"
+                              :disabled="unlimitedAge"
                             />
                           </v-col>
                           <v-col>
@@ -1307,10 +1307,17 @@
                                 (v) =>
                                   v > minAge || 'Must be greater than min age',
                               ]"
-                              hide-details="auto"
+                              :disabled="unlimitedAge"
                             />
                           </v-col>
                         </v-row>
+
+                        <v-checkbox
+                          v-model="unlimitedAge"
+                          label="No range, include all historic results"
+                          class="mt-0 mb-6"
+                          hide-details="auto"
+                        />
 
                         <v-alert
                           color="secondary"
@@ -1672,6 +1679,7 @@ export default {
       mdiConsole,
       minAge: 0,
       maxAge: 3,
+      unlimitedAge: false,
       meta,
       maxTechnologiesDialog: false,
       categoryTruncatedDialog: false,
@@ -2056,6 +2064,9 @@ export default {
     maxAge() {
       this.updateQuery()
     },
+    unlimitedAge() {
+      this.updateQuery()
+    },
     enableFromDate() {
       this.updateQuery()
     },
@@ -2173,8 +2184,8 @@ export default {
               subsetSlice: this.subsetSlice || 0,
               excludeNoTraffic: this.excludeNoTraffic,
               excludeMultilingual: this.excludeMultilingual,
-              minAge: this.minAge,
-              maxAge: this.maxAge,
+              minAge: this.unlimitedAge ? 0 : this.minAge,
+              maxAge: this.unlimitedAge ? 99 : this.maxAge,
               fromDate:
                 this.fromDate && this.enableFromDate
                   ? (new Date(this.fromDate).getTime() / 1000).toString()
@@ -2548,8 +2559,15 @@ export default {
           traffic: this.subsetSlice ? this.subsetSlice.toString() : undefined,
           notraffic: this.excludeNoTraffic ? 'exclude' : undefined,
           multilingual: this.excludeMultilingual ? 'exclude' : undefined,
-          min: this.minAge !== 0 ? this.minAge.toString() : undefined,
-          max: this.maxAge !== 3 ? this.maxAge.toString() : undefined,
+          min:
+            !this.unlimitedAge && this.minAge !== 0
+              ? this.minAge.toString()
+              : undefined,
+          max: this.unlimitedAge
+            ? '99'
+            : this.maxAge !== 3
+            ? this.maxAge.toString()
+            : undefined,
           from:
             this.fromDate && this.enableFromDate
               ? (new Date(this.fromDate).getTime() / 1000).toString()
@@ -2615,7 +2633,9 @@ export default {
         this.listSizeEstimate /= keywords ? 8 - Math.min(15, keywords) * 0.5 : 1
       }
 
-      const age = Math.max(0, 3 - Math.min(3, this.maxAge - this.minAge))
+      const age = this.unlimitedAge
+        ? 0
+        : Math.max(0, 3 - Math.min(3, this.maxAge - this.minAge))
 
       this.listSizeEstimate /= age ? 1 + age * 0.5 : 1
 
@@ -2669,8 +2689,16 @@ export default {
 
       this.maxAge = Math.max(
         1,
-        Math.min(12, parseInt(typeof max === 'undefined' ? 3 : max || 0, 10))
+        Math.min(
+          12,
+          parseInt(
+            typeof max === 'undefined' || max === '99' ? 3 : max || 0,
+            10
+          )
+        )
       )
+
+      this.unlimitedAge = max === '99'
 
       this.fromDate = from
         ? new Date(parseInt(from, 10) * 1000).toISOString().split('T')[0]
@@ -2885,7 +2913,12 @@ export default {
         this.$refs.attributes.toggle()
       }
 
-      if (this.minAge || this.maxAge !== 3 || this.fromDate) {
+      if (
+        this.minAge ||
+        this.maxAge !== 3 ||
+        this.fromDate ||
+        this.unlimitedAge
+      ) {
         this.$refs.age.toggle()
       }
 

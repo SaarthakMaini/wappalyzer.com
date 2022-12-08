@@ -80,6 +80,9 @@ export default {
       },
     ],
   },
+  router: {
+    trailingSlash: true,
+  },
   loading: { color: '#fff' },
   css: ['~/assets/scss/styles.scss'],
   plugins: [
@@ -194,6 +197,7 @@ export default {
     },
     followSymlinks: true,
   },
+  /*
   hooks: {
     'build:done'() {
       const modulesToClear = ['vue', 'vue/dist/vue.runtime.common.prod']
@@ -202,4 +206,5 @@ export default {
       })
     },
   },
+  */
 }

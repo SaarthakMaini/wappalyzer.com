@@ -79,9 +79,9 @@ Vue.mixin({
       try {
         const { hostname } = new URL(url)
 
-        return hostname.replace(/^www\./, '')
+        return String(hostname || '').replace(/^www\./, '')
       } catch (error) {
-        return url.replace(/^https?:\/\/www\./, '')
+        return String(url || '').replace(/^https?:\/\/www\./, '')
       }
     },
     getErrorMessage(error) {

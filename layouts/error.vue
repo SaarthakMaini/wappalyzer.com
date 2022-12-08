@@ -1,6 +1,6 @@
 <template>
-  <Page :title="title" no-hero no-subscribe no-head narrow>
-    <div class="text-center py-12">
+  <Page :title="redirecting ? '' : title" no-hero no-subscribe no-head narrow>
+    <div v-if="!redirecting" class="text-center py-12">
       <h1 class="mt-n2 mb-4">{{ title }}</h1>
 
       <p v-if="subtitle" class="subtitle-2 mt-n4">
@@ -41,6 +41,11 @@ export default {
       default: null,
     },
   },
+  beforeCreate() {
+    if (!this.$route.path.endsWith('/')) {
+      this.$router.replace(this.$route.path + '/')
+    }
+  },
   data() {
     return {
       statusCode: this.error.response
@@ -50,6 +55,7 @@ export default {
         ? this.error.response.data.message || this.error.response.data
         : this.error.message || this.error.toString(),
       code: (this.error.response && this.error.response.code) || '',
+      redirecting: !this.$route.path.endsWith('/'),
     }
   },
   computed: {

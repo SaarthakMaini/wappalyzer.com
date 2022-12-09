@@ -22,7 +22,7 @@
     </v-alert>
 
     <template #content>
-      <template v-if="!error && (!signInDialog || isLoading)">
+      <template v-if="!error && (!signInDialog || isSignedIn || isLoading)">
         <v-row>
           <v-col cols="12" sm="6">
             <h3 class="mb-4">Technology stack</h3>
@@ -95,12 +95,7 @@
                               <TechnologyIcon :icon="icon" large white />
 
                               <div
-                                class="
-                                  ml-2
-                                  d-flex
-                                  align-center
-                                  text-decoration-none
-                                "
+                                class="ml-2 d-flex align-center text-decoration-none"
                               >
                                 <span :class="hover ? 'accent--text' : ''">
                                   {{ name }}
@@ -431,7 +426,7 @@ export default {
     },
   },
   async mounted() {
-    const path = `/lookup/${this.hostname}`
+    const path = `/lookup/${this.hostname}/`
 
     if (this.hostname && this.$route.path !== path) {
       this.$router.replace(path)

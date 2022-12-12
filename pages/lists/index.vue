@@ -141,10 +141,12 @@
                                     <span>{{ item.name }}</span>
                                   </div>
                                   <v-row v-else>
-                                    <v-col>
+                                    <v-col class="flex-grow-1 flex-shrink-0">
                                       {{ item.name }}
                                     </v-col>
-                                    <v-col class="pr-0 text-right">
+                                    <v-col
+                                      class="pr-0 text-right flex-grow-0 flex-shrink-1"
+                                    >
                                       <small
                                         >(x{{
                                           Math.min(100, item.technologiesCount)
@@ -154,7 +156,12 @@
                                   </v-row>
                                 </td>
                                 <td>
-                                  <v-row v-if="item.type === 'technology'">
+                                  <v-row
+                                    v-if="
+                                      item.type === 'technology' &&
+                                      item.versioned
+                                    "
+                                  >
                                     <v-col class="py-0 pr-2">
                                       <v-select
                                         v-model="item.operator"
@@ -614,13 +621,7 @@
                                     {{ item.text }}
                                   </v-col>
                                   <v-col
-                                    class="
-                                      py-0
-                                      nowrap
-                                      text-right
-                                      body-2
-                                      flex-grow-0
-                                    "
+                                    class="py-0 nowrap text-right body-2 flex-grow-0"
                                   >
                                     {{ item.value }}
                                   </v-col>
@@ -722,13 +723,7 @@
                                     {{ item.text }}
                                   </v-col>
                                   <v-col
-                                    class="
-                                      py-0
-                                      nowrap
-                                      text-right
-                                      body-2
-                                      flex-grow-0
-                                    "
+                                    class="py-0 nowrap text-right body-2 flex-grow-0"
                                   >
                                     {{
                                       typeof item.value === 'object'
@@ -802,13 +797,7 @@
                                     {{ item.text }}
                                   </v-col>
                                   <v-col
-                                    class="
-                                      py-0
-                                      nowrap
-                                      text-right
-                                      body-2
-                                      flex-grow-0
-                                    "
+                                    class="py-0 nowrap text-right body-2 flex-grow-0"
                                   >
                                     {{ item.value }}
                                   </v-col>
@@ -2827,7 +2816,7 @@ export default {
               ;[technologySlug, version] = technologySlug.split(operator)
             }
 
-            const { slug, name, icon, categories } = (
+            const { slug, name, icon, categories, versioned } = (
               await this.$axios.get(`technologies/${technologySlug}`)
             ).data
 
@@ -2839,6 +2828,7 @@ export default {
               icon,
               operator,
               version,
+              versioned,
             })
           }
         }

@@ -360,7 +360,7 @@ export default {
 
         await this.$axios.delete(`verify-site/lists/${id}`)
 
-        this.$router.push({ path: '/verify/lists' })
+        this.$router.push({ path: '/verify/lists/' })
       } catch (error) {
         this.cancelError = this.getErrorMessage(error)
       }

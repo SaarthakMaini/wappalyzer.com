@@ -370,7 +370,7 @@ export default {
 
         await this.$axios.delete(`lookup-site/lists/${id}`)
 
-        this.$router.push({ path: '/lookup/lists' })
+        this.$router.push({ path: '/lookup/lists/' })
       } catch (error) {
         this.cancelError = this.getErrorMessage(error)
       }

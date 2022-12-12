@@ -769,7 +769,7 @@ export default {
 
       this.loading = true
 
-      this.$router.push(`/lookup/${encodeURIComponent(url)}`)
+      this.$router.push(`/lookup/${encodeURIComponent(url)}/`)
     },
     async submitBulk(paymentMethod = 'credits') {
       this.submitting = paymentMethod === 'credits'
@@ -798,7 +798,7 @@ export default {
           })
         ).data
 
-        this.$router.push(`/lookup/lists/${id}`)
+        this.$router.push(`/lookup/lists/${id}/`)
       } catch (error) {
         this.error = this.getErrorMessage(error)
       }

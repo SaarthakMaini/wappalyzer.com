@@ -128,7 +128,7 @@ export default {
 
           this.userId = ''
 
-          this.$router.push('/account')
+          this.$router.push('/account/')
         } catch (error) {
           this.signInError = this.getErrorMessage(error)
         }

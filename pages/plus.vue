@@ -16,15 +16,7 @@
         </p>
 
         <div
-          class="
-            d-flex
-            flex-row
-            align-center
-            body-2
-            font-weight-medium
-            mb-6
-            mt-10
-          "
+          class="d-flex flex-row align-center body-2 font-weight-medium mb-6 mt-10"
         >
           <v-spacer />
           <span class="font-weight-regular mr-2">Billing</span>
@@ -275,7 +267,7 @@ export default {
           })
         ).data
 
-        this.$router.push(`/orders/${id}`)
+        this.$router.push(`/orders/${id}/`)
       } catch (error) {
         this.error = this.getErrorMessage(error)
       }

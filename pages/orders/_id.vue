@@ -830,7 +830,7 @@ export default {
 
         await this.$axios.delete(`orders/${id}`)
 
-        this.$router.push({ path: '/orders' })
+        this.$router.push({ path: '/orders/' })
       } catch (error) {
         this.cancelError = this.getErrorMessage(error)
       }

@@ -602,7 +602,7 @@ export default {
           })
         ).data
 
-        this.$router.push(`/verify/lists/${id}`)
+        this.$router.push(`/verify/lists/${id}/`)
       } catch (error) {
         this.error = this.getErrorMessage(error)
       }

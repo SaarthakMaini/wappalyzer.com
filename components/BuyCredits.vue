@@ -128,7 +128,7 @@ export default {
           })
         ).data
 
-        this.$router.push(`/orders/${order.id}`)
+        this.$router.push(`/orders/${order.id}/`)
       } catch (error) {
         this.error = this.getErrorMessage(error)
       }

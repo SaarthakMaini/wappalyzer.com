@@ -905,7 +905,7 @@ export default {
           })
         ).data
 
-        this.$router.push(`/lists/${id}`)
+        this.$router.push(`/lists/${id}/`)
       } catch (error) {
         this.createListError = this.getErrorMessage(error)
       }

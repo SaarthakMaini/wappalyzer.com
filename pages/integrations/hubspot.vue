@@ -369,7 +369,7 @@ export default {
       code: null,
       connecting: false,
       disconnecting: false,
-      eligible: false,
+      eligible: true,
       fields: [],
       success: null,
       error: null,

@@ -50,7 +50,7 @@
                     <v-hover v-slot="{ hover }">
                       <tr v-on="on" :key="list.createdAt">
                         <td style="white-space: nowrap">
-                          <nuxt-link :to="`/lists/${list.id}`">{{
+                          <nuxt-link :to="`/lists/${list.id}/`">{{
                             list.id
                           }}</nuxt-link>
 
@@ -79,7 +79,7 @@
                             top
                           >
                             <template #activator="{ on }">
-                              <nuxt-link :to="`/lists/${list.repeatListId}`"
+                              <nuxt-link :to="`/lists/${list.repeatListId}/`"
                                 ><sup>
                                   <v-icon color="accent" small v-on="on">{{
                                     mdiUpdate

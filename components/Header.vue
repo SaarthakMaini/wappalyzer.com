@@ -200,7 +200,7 @@
 
                 <v-sheet tile>
                   <v-list nav dense>
-                    <v-list-item v-if="user.admin" to="/admin">
+                    <v-list-item v-if="user.admin" to="/admin/">
                       <v-list-item-icon>
                         <v-icon color="success" dense>
                           {{ mdi.mdiLockOpen }}

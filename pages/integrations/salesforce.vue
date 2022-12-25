@@ -309,7 +309,7 @@
           <v-text-field
             v-model="form.orgDomainName"
             label="Salesforce org domain name"
-            required
+            :rules="rules.orgDomainName"
             required
             dense
             outlined
@@ -382,7 +382,7 @@ export default {
       connectDialog: false,
       connectError: null,
       disconnecting: false,
-      eligible: false,
+      eligible: true,
       fields: [],
       selectedField: null,
       selectedCategory: null,
@@ -404,6 +404,13 @@ export default {
       mdiContentSave,
       mdiCloseCircle,
       orgDomainName: '',
+      rules: {
+        orgDomainName: [
+          (v) =>
+            /^[a-z0-9-]+\.[a-z0-9-.]+$/i.test(v) ||
+            "Invalid domain name (e.g. 'example.my.salesforce.com')",
+        ],
+      },
       form: {
         orgDomainName: '',
         clientId: '',

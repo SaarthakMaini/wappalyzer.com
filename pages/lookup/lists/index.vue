@@ -48,7 +48,7 @@
                 <v-hover v-slot="{ hover }">
                   <tr :key="list.createdAt">
                     <td>
-                      <nuxt-link :to="`/lookup/lists/${list.id}`">{{
+                      <nuxt-link :to="`/lookup/lists/${list.id}/`">{{
                         list.id
                       }}</nuxt-link>
 

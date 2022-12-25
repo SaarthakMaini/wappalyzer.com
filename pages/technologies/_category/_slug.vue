@@ -250,7 +250,7 @@
                       }}
                     </td>
                     <td width="50%">
-                      <nuxt-link :to="`/lookup/${hostname}`">{{
+                      <nuxt-link :to="`/lookup/${hostname}/`">{{
                         hostname
                       }}</nuxt-link>
                     </td>

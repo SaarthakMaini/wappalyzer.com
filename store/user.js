@@ -194,7 +194,11 @@ export const actions = {
 
           resolve()
         },
-        onFailure: reject,
+        onFailure: (error) => {
+          commit('setLoading', false)
+
+          reject(error)
+        },
       })
     })
   },

@@ -80,6 +80,57 @@
         </v-card-text>
       </template>
     </v-card>
+
+    <!--
+    <v-card class="mb-6" max-width="600px">
+      <v-card-title class="subtitle-2">Credits report</v-card-title>
+      <v-card-text>
+        <v-alert v-if="creditsTotalsError" type="error" text>
+          {{ signInError }}
+        </v-alert>
+
+        <v-form
+          :disabled="isImpersonator"
+          @submit.prevent="submitCreditsTotals"
+        >
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="creditsTotalsYear"
+                label="Year"
+                class="mb-4"
+                required
+                outlined
+                hide-details="auto"
+              />
+            </v-col>
+
+            <v-col>
+              <v-select
+                v-model="creditsTotalsMonth"
+                label="Month"
+                :items="months"
+                class="mb-4"
+                required
+                outlined
+                hide-details="auto"
+              />
+            </v-col>
+          </v-row>
+
+          <v-btn
+            :loading="submittingCreditsTotals"
+            color="primary"
+            class="mb-0"
+            depressed
+            @click="submitCreditsTotals"
+          >
+            Generate
+          </v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+    -->
   </Page>
 </template>
 
@@ -102,6 +153,25 @@ export default {
       items: [],
       signingIn: false,
       searching: false,
+      submittingCreditsTotals: false,
+      creditsTotalsError: false,
+      creditsTotalsYear: new Date().getFullYear(),
+      creditsTotalsMonth:
+        new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).getMonth() + 1,
+      months: [
+        { value: 1, text: 'January' },
+        { value: 2, text: 'February' },
+        { value: 3, text: 'March' },
+        { value: 4, text: 'April' },
+        { value: 5, text: 'May' },
+        { value: 6, text: 'June' },
+        { value: 7, text: 'July' },
+        { value: 8, text: 'August' },
+        { value: 9, text: 'September' },
+        { value: 10, text: 'October' },
+        { value: 11, text: 'November' },
+        { value: 12, text: 'December' },
+      ],
     }
   },
   computed: {
@@ -111,6 +181,11 @@ export default {
       isAdmin: ({ user }) =>
         user.attrs.admin || (user.impersonator && user.impersonator.admin),
     }),
+    months() {
+      return Array(12)
+        .fill(0)
+        .map((_, i) => i + 1)
+    },
   },
   created() {
     if ((!this.isAdmin || this.isImpersonator) && !this.$route.params.userId) {
@@ -162,6 +237,7 @@ export default {
 
       this.searching = false
     },
+    submitCreditsTotals() {},
   },
 }
 </script>

@@ -1,5 +1,5 @@
 export const state = () => ({
-  loading: true,
+  loading: false,
   error: false,
   credits: null,
   freeLists: { total: null, remaining: null, availableAt: null },

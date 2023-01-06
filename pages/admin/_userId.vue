@@ -95,21 +95,20 @@
         >
           <v-row>
             <v-col>
-              <v-text-field
-                v-model="creditsTotalsYear"
-                label="Year"
+              <v-select
+                v-model="creditsTotalsMonth"
+                label="Month"
+                :items="months"
                 class="mb-4"
                 required
                 outlined
                 hide-details="auto"
               />
             </v-col>
-
             <v-col>
-              <v-select
-                v-model="creditsTotalsMonth"
-                label="Month"
-                :items="months"
+              <v-text-field
+                v-model="creditsTotalsYear"
+                label="Year"
                 class="mb-4"
                 required
                 outlined
@@ -155,7 +154,9 @@ export default {
       searching: false,
       submittingCreditsTotals: false,
       creditsTotalsError: false,
-      creditsTotalsYear: new Date().getFullYear(),
+      creditsTotalsYear: new Date(
+        Date.now() - 1000 * 60 * 60 * 24 * 30
+      ).getFullYear(),
       creditsTotalsMonth:
         new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).getMonth() + 1,
       months: [

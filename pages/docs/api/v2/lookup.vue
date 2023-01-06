@@ -151,11 +151,28 @@
                   own server.
                 </p>
 
-                <p>Example: <code>https://yourdomain.com/wappalyzer</code>).</p>
+                <p>Example: <code>https://yourdomain.com/wappalyzer</code>.</p>
 
                 <p>
                   Required when using both <code>live=true</code> and
                   <code>recursive=true</code>.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td><code>debug_email</code></td>
+              <td class="pt-4">
+                <p>
+                  Send debug information to the specified email address when
+                  using <code>callback_url</code>. If you're not receiving any
+                  results on your callback URL, use this to get more detailed
+                  information.
+                </p>
+
+                <p>Example: <code>john@example.com</code>.</p>
+
+                <p>
+                  For testing purposes only, please do not use in production.
                 </p>
               </td>
             </tr>

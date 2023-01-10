@@ -813,6 +813,8 @@ export default {
         return
       }
 
+      console.log(file)
+
       if (file !== this.inputFile) {
         this.inputFile = file ? await file.text() : ''
 

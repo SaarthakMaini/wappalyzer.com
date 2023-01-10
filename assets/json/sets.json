@@ -137,11 +137,11 @@
     "key": "trackers",
     "name": "Tracker IDs",
     "attributes": [
-      { "name": "Google Analytics", "key": "trackerGoogleAnalytics", "description": "Google Analytics tracking ID." },
-      { "name": "Google AdSense", "key": "trackerGoogleAdSense", "description": "Google AdSense tracking ID." },
-      { "name": "Medianet", "key": "trackerMedianet", "description": "Medianet tracking ID." },
-      { "name": "Facebook", "key": "trackerFacebook", "description": "Facebook tracking ID." },
-      { "name": "Optimizely", "key": "trackerOptimizely", "description": "Optimizely tracking ID." }
+      { "name": "Google Analytics ID", "key": "trackerGoogleAnalytics", "description": "Google Analytics tracking ID." },
+      { "name": "Google AdSense ID", "key": "trackerGoogleAdSense", "description": "Google AdSense tracking ID." },
+      { "name": "Medianet ID", "key": "trackerMedianet", "description": "Medianet tracking ID." },
+      { "name": "Meta ID", "key": "trackerFacebook", "description": "Meta tracking ID." },
+      { "name": "Optimizely ID", "key": "trackerOptimizely", "description": "Optimizely tracking ID." }
     ]
   },
   {

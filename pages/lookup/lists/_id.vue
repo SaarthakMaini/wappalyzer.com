@@ -80,55 +80,7 @@
         <v-icon left> {{ mdiDownload }} </v-icon>Download list
       </v-btn>
 
-      <div
-        v-if="list.status === 'Processing'"
-        class="text-center mb-n6"
-        style="padding: 100px 0"
-      >
-        <div v-if="playGame">
-          <TicTacToe class="mt-6" />
-
-          <div class="mt-6">
-            <small
-              ><a
-                class="text--disabled text-decoration-underline"
-                @click="playGame = false"
-                >Close</a
-              ></small
-            >
-          </div>
-        </div>
-        <template v-else>
-          <v-progress-circular
-            color="accent"
-            size="100"
-            width="5"
-            :value="progress"
-            :indeterminate="!progress || progress === 100"
-          >
-            <small>
-              {{
-                progress === 100
-                  ? 'Finalising...'
-                  : progress
-                  ? `${progress}%`
-                  : 'Starting...'
-              }}
-            </small>
-          </v-progress-circular>
-
-          <div class="mt-6">
-            <small
-              ><a
-                class="text--disabled text-decoration-underline"
-                @click="playGame = true"
-                >Play a game?</a
-              ></small
-            >
-          </div>
-        </template>
-      </div>
-      <v-card v-else class="mb-4">
+      <v-card v-if="list.status !== 'Processing' || isAdmin" class="mb-4">
         <template v-if="isAdmin">
           <v-card-title>Administration</v-card-title>
           <v-card-text class="px-0">
@@ -193,6 +145,55 @@
           </v-simple-table>
         </v-card-text>
       </v-card>
+
+      <div
+        v-if="list.status === 'Processing'"
+        class="text-center mb-n6"
+        style="padding: 100px 0"
+      >
+        <div v-if="playGame">
+          <TicTacToe class="mt-6" />
+
+          <div class="mt-6">
+            <small
+              ><a
+                class="text--disabled text-decoration-underline"
+                @click="playGame = false"
+                >Close</a
+              ></small
+            >
+          </div>
+        </div>
+        <template v-else>
+          <v-progress-circular
+            color="accent"
+            size="100"
+            width="5"
+            :value="progress"
+            :indeterminate="!progress || progress === 100"
+          >
+            <small>
+              {{
+                progress === 100
+                  ? 'Finalising...'
+                  : progress
+                  ? `${progress}%`
+                  : 'Starting...'
+              }}
+            </small>
+          </v-progress-circular>
+
+          <div class="mt-6">
+            <small
+              ><a
+                class="text--disabled text-decoration-underline"
+                @click="playGame = true"
+                >Play a game?</a
+              ></small
+            >
+          </div>
+        </template>
+      </div>
 
       <div v-if="list.status === 'Failed'" class="mt-4">
         <v-btn color="error" outlined @click="cancelDialog = true">

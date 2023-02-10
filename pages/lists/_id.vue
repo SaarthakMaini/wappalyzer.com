@@ -55,9 +55,9 @@
 
             <v-btn :to="`/lists/${queryParams}`" color="warning" exact outlined>
               <v-icon left>
-                {{ mdiArrowLeft }}
+                {{ mdiPencil }}
               </v-icon>
-              Create a new list
+              Edit selection
             </v-btn>
           </v-alert>
 
@@ -169,15 +169,59 @@
           </div>
 
           <template v-if="['Ready', 'Complete'].includes(list.status)">
+            <div class="d-flex mb-4">
+              <v-btn
+                v-if="
+                  list.createdAt >
+                  Math.round(Date.now() / 1000) - 60 * 60 * 24 * 30
+                "
+                :to="`/lists/?base=${list.id}`"
+                color="primary lighten-1 primary--text"
+                class="mr-2"
+                depressed
+              >
+                <v-icon left>
+                  {{ mdiFilter }}
+                </v-icon>
+                Add filters </v-btn
+              ><v-btn :to="`/lists/${queryParams}`" class="mr-2" depressed>
+                <v-icon left>
+                  {{ mdiPencil }}
+                </v-icon>
+                Edit selection</v-btn
+              ><v-btn depressed @click="$refs.faqDialog.open()" class="mr-2">
+                <v-icon left>
+                  {{ mdiForum }}
+                </v-icon>
+                FAQs</v-btn
+              >
+
+              <v-spacer />
+
+              <v-btn
+                v-if="isAdmin"
+                :loading="calculating"
+                color="success"
+                outlined
+                @click="calculate"
+              >
+                <v-icon left>
+                  {{ mdiReload }}
+                </v-icon>
+                Recalculate
+              </v-btn>
+            </div>
+
             <v-expansion-panels
               v-if="
+                list.format !== 'json' &&
                 list.query.technologies.length &&
                 list.query.technologies.some(
                   ({ sample }) => sample && sample.length
                 )
               "
               v-model="panelIndex"
-              class="mb-6"
+              class="mb-4"
             >
               <v-expansion-panel
                 v-for="technology in list.query.technologies.filter(
@@ -227,7 +271,14 @@
             </v-expansion-panels>
 
             <v-card
-              v-else-if="list.query.keywords.length || list.query.tlds.length"
+              v-else-if="
+                list.format !== 'json' &&
+                (list.query.keywords.length ||
+                  list.query.tlds.length ||
+                  (list.baseListId &&
+                    (list.baseList.query.keywords.length ||
+                      list.baseList.query.tlds.length)))
+              "
               class="mb-6"
             >
               <v-card-title>Sample</v-card-title>
@@ -241,29 +292,45 @@
             </v-alert>
           </template>
 
-          <v-btn
-            v-if="list.status === 'Ready' && list.sampleFilename"
-            :href="`${datasetsBaseUrl}${list.sampleFilename}`"
-            class="mb-4"
-            depressed
+          <div
+            v-if="
+              (list.status === 'Ready' && list.sampleFilename) ||
+              list.status !== 'Complete'
+            "
+            class="d-flex mb-4"
           >
-            <v-icon left>
-              {{ mdiDownload }}
-            </v-icon>
-            Download samples
-          </v-btn>
+            <v-btn
+              v-if="list.status === 'Ready' && list.sampleFilename"
+              :href="`${datasetsBaseUrl}${list.sampleFilename}`"
+              depressed
+            >
+              <v-icon left>
+                {{ mdiDownload }}
+              </v-icon>
+              Download samples
+            </v-btn>
+
+            <v-spacer />
+
+            <v-btn
+              v-if="list.status !== 'Complete'"
+              color="error"
+              class="ml-2"
+              outlined
+              @click="cancelDialog = true"
+            >
+              <v-icon left>
+                {{ mdiDelete }}
+              </v-icon>
+              Delete list
+            </v-btn>
+          </div>
         </v-col>
 
         <v-col cols="12" md="4" class="py-0">
           <v-card class="mb-4">
             <v-card-title
-              class="
-                subtitle-1
-                font-weight-medium
-                px-6
-                d-flex
-                justify-space-between
-              "
+              class="subtitle-1 font-weight-medium px-6 d-flex justify-space-between"
             >
               <span>Get the full list</span>
               <v-chip
@@ -672,6 +739,23 @@
                   Filters
                 </v-expansion-panel-header>
                 <v-expansion-panel-content class="no-x-padding no-b-padding">
+                  <v-alert
+                    v-if="list.baseListId"
+                    color="accent"
+                    class="mx-6 pb-3"
+                    border="left"
+                    dense
+                    text
+                  >
+                    <small>
+                      This list is a subset of
+                      <nuxt-link :to="`/lists/${list.baseListId}/`">{{
+                        list.baseListId
+                      }}</nuxt-link
+                      >.
+                    </small>
+                  </v-alert>
+
                   <v-simple-table>
                     <tbody>
                       <tr
@@ -715,7 +799,12 @@
                           </v-chip-group>
                         </td>
                       </tr>
-                      <tr v-if="list.query.subset">
+                      <tr
+                        v-if="
+                          list.query.subset &&
+                          (list.query.subset !== 500000 || list.rows >= 500000)
+                        "
+                      >
                         <th width="40%">List size limit</th>
                         <td>
                           {{ formatNumber(list.query.subset) }}
@@ -1057,48 +1146,6 @@
               </v-card-text>
             </template>
           </v-card>
-
-          <v-card-actions class="mb-4 pa-0 d-flex">
-            <v-btn small depressed @click="$refs.faqDialog.open()">
-              <v-icon left>
-                {{ mdiForum }}
-              </v-icon>
-              FAQs
-            </v-btn>
-            <v-spacer />
-            <v-btn
-              v-if="isAdmin"
-              :loading="calculating"
-              color="success"
-              text
-              small
-              @click="calculate"
-            >
-              <v-icon left>
-                {{ mdiReload }}
-              </v-icon>
-              Recalc
-            </v-btn>
-            <v-btn :to="`/lists/${queryParams}`" color="accent" text small>
-              <v-icon left>
-                {{ mdiPencil }}
-              </v-icon>
-              Edit
-            </v-btn>
-            <v-btn
-              v-if="list.status !== 'Complete'"
-              color="error"
-              class="ml-2"
-              text
-              small
-              @click="cancelDialog = true"
-            >
-              <v-icon left>
-                {{ mdiDelete }}
-              </v-icon>
-              Delete
-            </v-btn>
-          </v-card-actions>
         </v-col>
       </v-row>
     </template>
@@ -1170,6 +1217,7 @@ import {
   mdiMinus,
   mdiCheckboxMarked,
   mdiPencil,
+  mdiFilter,
   mdiReload,
   mdiAlphaCCircle,
   mdiDelete,
@@ -1251,6 +1299,7 @@ export default {
       mdiMinus,
       mdiCheckboxMarked,
       mdiPencil,
+      mdiFilter,
       mdiReload,
       mdiAlphaCCircle,
       mdiDelete,
@@ -1365,6 +1414,7 @@ export default {
           this.list.query.compliance === 'excludeEU'
             ? this.list.query.compliance
             : undefined,
+        base: this.list.baseListId || undefined,
       }
 
       const string = Object.keys(params)

@@ -522,6 +522,27 @@
                 </p>
               </td>
             </tr>
+            <tr>
+              <td>
+                <code>baseListId</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  ID of the list that was used as a base for this list, if any.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>baseList</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  Details of the list that was used as a base for this list, if
+                  any.
+                </p>
+              </td>
+            </tr>
           </tbody>
         </v-simple-table>
       </v-card>
@@ -582,7 +603,8 @@
   },
   "setRows": {
     "email": 1000,
-  }
+  },
+  "baseListId": "lst_abcdef"
 }</Code></pre>
 
       <v-divider class="mt-12 mb-8" />
@@ -977,6 +999,18 @@
                     >true</code
                   >
                   or <code>false</code> (default)).
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>baseListId</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  ID of a list to use as a base, e.g. <code>lst_abcdef</code>.
+                  The results will be filtered to only include websites that are
+                  also in the base list.
                 </p>
               </td>
             </tr>

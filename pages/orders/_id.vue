@@ -357,7 +357,7 @@
             <v-alert
               v-if="!user.billingEmail"
               color="info"
-              class="my-0 mx-4"
+              class="mt-0 mx-4"
               text
             >
               No billing details provided.

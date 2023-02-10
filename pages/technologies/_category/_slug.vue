@@ -68,79 +68,89 @@
             Open-source software
           </v-chip>
 
-          <v-tooltip top>
-            <template #activator="{ on }">
-              <v-chip
-                v-if="
-                  technology.pricing.includes('low') ||
-                  technology.pricing.includes('mid') ||
-                  technology.pricing.includes('high')
-                "
-                small
-                outlined
-                v-on="on"
-              >
-                <v-icon small>
-                  {{ mdiCurrencyUsd }}
-                </v-icon>
-                <v-icon :disabled="technology.pricing.includes('low')" small>
-                  {{
-                    technology.pricing.includes('low')
-                      ? mdiCurrencyUsdOff
-                      : mdiCurrencyUsd
-                  }}
-                </v-icon>
-                <v-icon
-                  :disabled="
+          <template v-if="technology.pricing">
+            <v-tooltip top>
+              <template #activator="{ on }">
+                <v-chip
+                  v-if="
                     technology.pricing.includes('low') ||
-                    technology.pricing.includes('mid')
+                    technology.pricing.includes('mid') ||
+                    technology.pricing.includes('high')
                   "
                   small
+                  outlined
+                  v-on="on"
                 >
-                  {{
-                    technology.pricing.includes('low') ||
-                    technology.pricing.includes('mid')
-                      ? mdiCurrencyUsdOff
-                      : mdiCurrencyUsd
-                  }}
-                </v-icon>
-              </v-chip>
-            </template>
+                  <v-icon small>
+                    {{ mdiCurrencyUsd }}
+                  </v-icon>
+                  <v-icon :disabled="technology.pricing.includes('low')" small>
+                    {{
+                      technology.pricing.includes('low')
+                        ? mdiCurrencyUsdOff
+                        : mdiCurrencyUsd
+                    }}
+                  </v-icon>
+                  <v-icon
+                    :disabled="
+                      technology.pricing.includes('low') ||
+                      technology.pricing.includes('mid')
+                    "
+                    small
+                  >
+                    {{
+                      technology.pricing.includes('low') ||
+                      technology.pricing.includes('mid')
+                        ? mdiCurrencyUsdOff
+                        : mdiCurrencyUsd
+                    }}
+                  </v-icon>
+                </v-chip>
+              </template>
 
-            {{
-              `Typically costs ${
-                technology.pricing.includes('mid')
-                  ? 'less than US $1,000/mo'
-                  : technology.pricing.includes('high')
-                  ? 'more than US $1,000/mo'
-                  : 'less than US $100/mo'
-              } (indicative)`
-            }}
-          </v-tooltip>
+              {{
+                `Typically costs ${
+                  technology.pricing.includes('mid')
+                    ? 'less than US $1,000/mo'
+                    : technology.pricing.includes('high')
+                    ? 'more than US $1,000/mo'
+                    : 'less than US $100/mo'
+                } (indicative)`
+              }}
+            </v-tooltip>
 
-          <v-chip
-            v-if="technology.pricing.includes('recurring')"
-            small
-            outlined
-          >
-            Offers paid plans
-          </v-chip>
+            <v-chip
+              v-if="technology.pricing.includes('recurring')"
+              small
+              outlined
+            >
+              Offers paid plans
+            </v-chip>
 
-          <v-chip v-if="technology.pricing.includes('freemium')" small outlined>
-            Offers a free plan
-          </v-chip>
+            <v-chip
+              v-if="technology.pricing.includes('freemium')"
+              small
+              outlined
+            >
+              Offers a free plan
+            </v-chip>
 
-          <v-chip v-if="technology.pricing.includes('poa')" small outlined>
-            Price on asking
-          </v-chip>
+            <v-chip v-if="technology.pricing.includes('poa')" small outlined>
+              Price on asking
+            </v-chip>
 
-          <v-chip v-if="technology.pricing.includes('payg')" small outlined>
-            Pay as you go
-          </v-chip>
+            <v-chip v-if="technology.pricing.includes('payg')" small outlined>
+              Pay as you go
+            </v-chip>
 
-          <v-chip v-if="technology.pricing.includes('onetime')" small outlined>
-            Accepts one-time payments
-          </v-chip>
+            <v-chip
+              v-if="technology.pricing.includes('onetime')"
+              small
+              outlined
+            >
+              Accepts one-time payments
+            </v-chip>
+          </template>
         </v-chip-group>
       </div>
 

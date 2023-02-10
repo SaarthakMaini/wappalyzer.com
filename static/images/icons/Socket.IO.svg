@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="43px" height="43px" viewBox="0 0 43 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
-    <title>logo full</title>
-    <description>Created with Sketch.</description>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="logo" sketch:type="MSLayerGroup">
-            <path d="M0,0 L43,0 L43,43 L0,43 L0,0 L0,0 Z" id="Shape" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
-            <path d="M16.2,1.24 C21.62,-0.15 27.61,0.66 32.39,3.61 C38.41,7.21 42.34,14.02 42.44,21.03 C42.66,28.11 38.97,35.13 33.04,38.98 C26.44,43.42 17.31,43.59 10.57,39.37 C3.7,35.27 -0.31,27 0.72,19.06 C1.55,10.67 8.03,3.27 16.2,1.24 L16.2,1.24 Z" id="Shape" fill="#010101" sketch:type="MSShapeGroup"></path>
-            <path d="M15.37,4.67 C25.61,0.57 38.17,8.14 39.23,19.12 C40.88,29 32.68,39.04 22.67,39.33 C13.15,40.28 3.95,32.21 3.68,22.65 C2.97,14.91 8.07,7.23 15.37,4.67 L15.37,4.67 Z" id="Shape" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
-            <path d="M16.4,20.44 C20.99,16.69 25.48,12.81 30.17,9.17 C27.71,12.95 25.18,16.68 22.72,20.46 C20.61,20.47 18.5,20.47 16.4,20.44 L16.4,20.44 Z" id="Shape" fill="#010101" sketch:type="MSShapeGroup"></path>
-            <path d="M20.28,22.53 C22.4,22.53 24.51,22.53 26.62,22.56 C22,26.29 17.53,30.2 12.83,33.83 C15.29,30.05 17.82,26.31 20.28,22.53 L20.28,22.53 Z" id="Shape" fill="#010101" sketch:type="MSShapeGroup"></path>
-        </g>
-    </g>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_3325_832)">
+<g clip-path="url(#clip1_3325_832)">
+<path d="M12.0558 0.922722C16.0892 -0.111653 20.5469 0.491097 24.1041 2.68647C28.5841 5.3656 31.5088 10.4335 31.5832 15.6502C31.7469 20.919 29.0008 26.1432 24.5878 29.0083C19.6762 32.3125 12.8818 32.4391 7.86594 29.2986C2.75344 26.2473 -0.230814 20.093 0.535811 14.1841C1.15331 7.94035 5.97581 2.43347 12.0558 0.922847V0.922722Z" fill="#010101"/>
+<path d="M11.438 3.47541C19.0585 0.424161 28.4055 6.05766 29.1943 14.2289C30.4223 21.5814 24.3199 29.053 16.8705 29.2689C9.78589 29.9759 2.93939 23.9702 2.73851 16.8559C2.21014 11.0959 6.00551 5.38054 11.438 3.47541V3.47541Z" fill="white"/>
+<path d="M12.2046 15.2113C15.6205 12.4206 18.9619 9.53309 22.4521 6.82422C20.6214 9.63734 18.7386 12.4131 16.9079 15.2261C15.3376 15.2336 13.7675 15.2336 12.2046 15.2112V15.2113ZM15.0921 16.7666C16.6697 16.7666 18.24 16.7666 19.8102 16.789C16.3721 19.5647 13.0456 22.4745 9.54785 25.176C11.3786 22.3628 13.2614 19.5797 15.0921 16.7666Z" fill="#010101"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_3325_832">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+<clipPath id="clip1_3325_832">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+</defs>
 </svg>

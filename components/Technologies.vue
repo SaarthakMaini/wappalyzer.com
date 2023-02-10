@@ -197,7 +197,7 @@ export default {
     },
     clear() {
       this.$nextTick(() => {
-        this.$refs.results.blur()
+        this.$refs.results && this.$refs.results.blur()
 
         this.error = ''
         this.query = ''

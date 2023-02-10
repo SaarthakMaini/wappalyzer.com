@@ -174,7 +174,7 @@
             </p>
 
             <template v-if="!spends.length">
-              <v-alert color="info" class="mb-0" text>
+              <v-alert color="info" class="mb-0 mx-6" text>
                 You don't have credit usage.
               </v-alert>
             </template>

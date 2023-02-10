@@ -45,7 +45,7 @@
             </thead>
             <tbody>
               <template v-for="list in filteredLists">
-                <v-tooltip bottom>
+                <v-tooltip left>
                   <template #activator="{ on }">
                     <v-hover v-slot="{ hover }">
                       <tr v-on="on" :key="list.createdAt">
@@ -220,8 +220,13 @@
                     </v-hover>
                   </template>
 
-                  Created:
-                  {{ formatDate(new Date(list.createdAt * 1000)) }}
+                  <div v-if="list.baseListId">
+                    Subset of {{ list.baseListId }}
+                  </div>
+                  <div>
+                    Created on
+                    {{ formatDate(new Date(list.createdAt * 1000)) }}
+                  </div>
                 </v-tooltip>
               </template>
             </tbody>
@@ -299,6 +304,7 @@ import {
   mdiPencil,
   mdiDelete,
   mdiGiftOutline,
+  mdiSubdirectoryArrowLeft,
 } from '@mdi/js'
 import Page from '~/components/Page.vue'
 import Spinner from '~/components/Spinner.vue'
@@ -325,6 +331,7 @@ export default {
       mdiPencil,
       mdiDelete,
       mdiGiftOutline,
+      mdiSubdirectoryArrowLeft,
       selected: {},
       viewMine: false,
     }

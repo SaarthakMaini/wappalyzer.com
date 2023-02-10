@@ -13,31 +13,23 @@
           <v-icon left>
             {{ mdiPlay }}
           </v-icon>
-          Take a tour
-        </v-btn>
-
-        <v-btn class="mb-2 mr-2" depressed @click="suggestionsDialog = true">
+          Take a tour </v-btn
+        ><v-btn class="mb-2 mr-2" depressed @click="suggestionsDialog = true">
           <v-icon left>
             {{ mdiLightbulbOutline }}
           </v-icon>
-          List ideas
-        </v-btn>
-
-        <v-btn href="/lists/sample/" class="mb-2 mr-2" depressed>
+          List ideas </v-btn
+        ><v-btn href="/lists/sample/" class="mb-2 mr-2" depressed>
           <v-icon left>
             {{ mdiFileOutline }}
           </v-icon>
-          Sample list
-        </v-btn>
-
-        <v-btn class="mb-2 mr-2" depressed @click="$refs.faqDialog.open()">
+          Sample list </v-btn
+        ><v-btn class="mb-2 mr-2" depressed @click="$refs.faqDialog.open()">
           <v-icon left>
             {{ mdiForum }}
           </v-icon>
-          FAQs
-        </v-btn>
-
-        <v-btn to="/api/" class="mb-2 mr-2" depressed>
+          FAQs </v-btn
+        ><v-btn to="/api/" class="mb-2 mr-2" depressed>
           <v-icon left>
             {{ mdiConsole }}
           </v-icon>
@@ -47,9 +39,9 @@
 
       <div class="body-2" style="max-width: 600px">
         <p>
-          Get started by selecting one or more technologies or keywords.
-          Optionally add filters to get exactly what you need. Within minutes,
-          you get a free sample to review. Sign up for a
+          Get started by selecting one or more technologies, keywords or
+          top-level domains. Optionally add filters to get exactly what you
+          need. Within minutes, you get a free sample to review. Sign up for a
           <v-chip to="/pro/" color="primary" x-small outlined>PRO</v-chip>
           plan to download the full list.
         </p>
@@ -58,8 +50,25 @@
       <div class="mt-6 mb-10"></div>
 
       <template #content>
+        <v-alert v-if="baseList" color="accent" class="mb-8" text>
+          <v-row>
+            <v-col class="align-self-center">
+              You're creating a list based on
+              <nuxt-link :to="`/lists/${baseList.id}/`">{{
+                baseList.id
+              }}</nuxt-link
+              >.
+            </v-col>
+            <v-col class="flex-grow-0">
+              <v-btn @click="baseList = null" color="accent" depressed
+                >Create a new list</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-alert>
+
         <v-form ref="form">
-          <v-alert v-if="error" type="error" text>
+          <v-alert v-if="error" type="error" class="mb-8" text>
             {{ error }}
           </v-alert>
 
@@ -78,9 +87,17 @@
                   :disabled="loading"
                   multiple
                 >
-                  <v-expansion-panel ref="technologies" value="technologies">
+                  <v-expansion-panel
+                    ref="technologies"
+                    value="technologies"
+                    :disabled="!!baseList"
+                  >
                     <v-expansion-panel-header class="subtitle-2">
-                      Technologies
+                      <span>Technologies</span>
+
+                      <v-spacer />
+
+                      <Spinner v-if="loading" class="flex-grow-0" />
                     </v-expansion-panel-header>
                     <v-expansion-panel-content class="no-x-padding">
                       <div class="mx-6">
@@ -399,13 +416,163 @@
                       </v-expansion-panel-content>
                     </Tour>
                   </v-expansion-panel>
+
+                  <v-expansion-panel ref="tlds" value="tlds">
+                    <Tour
+                      :step="tourGetStep('filtersTlds')"
+                      :steps="Object.keys(tourSteps).length"
+                      :text="tourGetText('filtersTlds')"
+                      :active-step="tourActiveStep"
+                      @nav="tourNav"
+                    >
+                      <v-expansion-panel-header class="subtitle-2">
+                        Top-level domains
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <p>
+                          Target countries by top-level domain. You can also
+                          enter a domain name to create a list of subdomains
+                          (e.g. '.wordpress.com').
+                        </p>
+
+                        <v-row>
+                          <v-col>
+                            <v-select
+                              ref="country"
+                              v-model="selectedCountry"
+                              :items="countries"
+                              class="mb-4 pt-0"
+                              label="Select a country"
+                              hide-details
+                              outlined
+                              dense
+                              eager
+                            />
+                          </v-col>
+                          <v-col>
+                            <v-form ref="form" @submit.prevent="addTld">
+                              <v-text-field
+                                v-model="tld"
+                                :error-messages="tldErrors"
+                                :append-icon="mdiPlus"
+                                placeholder=".com"
+                                class="pt-0"
+                                hide-details="auto"
+                                outlined
+                                dense
+                                @click:append="addTld"
+                              />
+                            </v-form>
+                          </v-col>
+                        </v-row>
+
+                        <v-select
+                          v-if="selectedCountry"
+                          ref="tld"
+                          :items="tlds"
+                          class="mb-8"
+                          label="Select a top-level-domain"
+                          hide-details
+                          outlined
+                          dense
+                          eager
+                        >
+                          <template #prepend-item>
+                            <v-list-item ripple @click="toggleTlds">
+                              <v-list-item-action>
+                                <v-icon
+                                  :color="
+                                    selected.tlds.length > 0 ? 'primary' : ''
+                                  "
+                                >
+                                  {{
+                                    tlds.every(({ active }) => active)
+                                      ? mdiCheckboxMarked
+                                      : tlds.some(({ active }) => active)
+                                      ? mdiMinusBoxOutline
+                                      : mdiCheckboxBlankOutline
+                                  }}
+                                </v-icon>
+                              </v-list-item-action>
+
+                              <v-list-item-content>
+                                <v-list-item-title>
+                                  Select All
+                                </v-list-item-title>
+                              </v-list-item-content>
+                            </v-list-item>
+
+                            <v-divider class="mt-2" />
+                          </template>
+
+                          <template #item="{ item }">
+                            <v-list-item ripple @click="toggleTld(item)">
+                              <v-list-item-action>
+                                <v-icon :color="item.active ? 'primary' : ''">
+                                  {{
+                                    item.active
+                                      ? mdiCheckboxMarked
+                                      : mdiCheckboxBlankOutline
+                                  }}
+                                </v-icon>
+                              </v-list-item-action>
+
+                              <v-list-item-content>
+                                {{ item.text }}
+                              </v-list-item-content>
+                            </v-list-item>
+                          </template>
+                        </v-select>
+
+                        <v-chip-group
+                          v-if="selected.tlds.length"
+                          class="mt-n1 mb-4"
+                          column
+                        >
+                          <v-tooltip
+                            v-for="(item, i) in selected.tlds"
+                            :key="i"
+                            bottom
+                          >
+                            <template #activator="{ on }">
+                              <v-chip
+                                color="primary lighten-1 primary--text"
+                                label
+                                close
+                                v-on="item.parent ? on : undefined"
+                                @click:close="toggleTld(item)"
+                              >
+                                {{ item.value }}
+                              </v-chip>
+                            </template>
+
+                            {{ item.parent }}
+                          </v-tooltip>
+                        </v-chip-group>
+
+                        <v-alert
+                          color="secondary"
+                          border="left"
+                          class="mt-4 mb-2"
+                          dense
+                        >
+                          <small>
+                            The top-level domain is the last part of a domain
+                            name (e.g. '.com'). This can be used to target
+                            websites in specific countries (e.g. '.com.au' for
+                            Australia).
+                          </small>
+                        </v-alert>
+                      </v-expansion-panel-content>
+                    </Tour>
+                  </v-expansion-panel>
                 </v-expansion-panels>
               </Tour>
 
               <v-expansion-panels
                 v-model="panelsSelection"
                 class="body-2"
-                :disabled="!selection"
+                :disabled="!selection && !baseList"
                 multiple
               >
                 <v-expansion-panel ref="attributes" value="attributes">
@@ -557,7 +724,7 @@
                 <v-expansion-panels
                   v-model="panelsFilters"
                   class="body-2"
-                  :disabled="!selection"
+                  :disabled="!selection && !baseList"
                   multiple
                 >
                   <v-expansion-panel ref="ipCountries" value="ipCountries">
@@ -871,152 +1038,6 @@
                     </Tour>
                   </v-expansion-panel>
 
-                  <v-expansion-panel ref="tlds" value="tlds">
-                    <Tour
-                      :step="tourGetStep('filtersTlds')"
-                      :steps="Object.keys(tourSteps).length"
-                      :text="tourGetText('filtersTlds')"
-                      :active-step="tourActiveStep"
-                      @nav="tourNav"
-                    >
-                      <v-expansion-panel-header class="subtitle-2">
-                        Top-level domains
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        <p>Target countries by top-level domain.</p>
-
-                        <v-row>
-                          <v-col>
-                            <v-select
-                              ref="country"
-                              v-model="selectedCountry"
-                              :items="countries"
-                              class="mb-4 pt-0"
-                              label="Select a country"
-                              hide-details
-                              outlined
-                              dense
-                              eager
-                            />
-                          </v-col>
-                          <v-col>
-                            <v-form ref="form" @submit.prevent="addTld">
-                              <v-text-field
-                                v-model="tld"
-                                :error-messages="tldErrors"
-                                :append-icon="mdiPlus"
-                                placeholder=".com"
-                                class="pt-0"
-                                hide-details="auto"
-                                outlined
-                                dense
-                                @click:append="addTld"
-                              />
-                            </v-form>
-                          </v-col>
-                        </v-row>
-
-                        <v-select
-                          v-if="selectedCountry"
-                          ref="tld"
-                          :items="tlds"
-                          class="mb-8"
-                          label="Select a top-level-domain"
-                          hide-details
-                          outlined
-                          dense
-                          eager
-                        >
-                          <template #prepend-item>
-                            <v-list-item ripple @click="toggleTlds">
-                              <v-list-item-action>
-                                <v-icon
-                                  :color="
-                                    selected.tlds.length > 0 ? 'primary' : ''
-                                  "
-                                >
-                                  {{
-                                    tlds.every(({ active }) => active)
-                                      ? mdiCheckboxMarked
-                                      : tlds.some(({ active }) => active)
-                                      ? mdiMinusBoxOutline
-                                      : mdiCheckboxBlankOutline
-                                  }}
-                                </v-icon>
-                              </v-list-item-action>
-
-                              <v-list-item-content>
-                                <v-list-item-title>
-                                  Select All
-                                </v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-
-                            <v-divider class="mt-2" />
-                          </template>
-
-                          <template #item="{ item }">
-                            <v-list-item ripple @click="toggleTld(item)">
-                              <v-list-item-action>
-                                <v-icon :color="item.active ? 'primary' : ''">
-                                  {{
-                                    item.active
-                                      ? mdiCheckboxMarked
-                                      : mdiCheckboxBlankOutline
-                                  }}
-                                </v-icon>
-                              </v-list-item-action>
-
-                              <v-list-item-content>
-                                {{ item.text }}
-                              </v-list-item-content>
-                            </v-list-item>
-                          </template>
-                        </v-select>
-
-                        <v-chip-group
-                          v-if="selected.tlds.length"
-                          class="mt-n1 mb-4"
-                          column
-                        >
-                          <v-tooltip
-                            v-for="(item, i) in selected.tlds"
-                            :key="i"
-                            bottom
-                          >
-                            <template #activator="{ on }">
-                              <v-chip
-                                color="primary lighten-1 primary--text"
-                                label
-                                close
-                                v-on="item.parent ? on : undefined"
-                                @click:close="toggleTld(item)"
-                              >
-                                {{ item.value }}
-                              </v-chip>
-                            </template>
-
-                            {{ item.parent }}
-                          </v-tooltip>
-                        </v-chip-group>
-
-                        <v-alert
-                          color="secondary"
-                          border="left"
-                          class="mt-4 mb-2"
-                          dense
-                        >
-                          <small>
-                            The top-level domain is the last part of a domain
-                            name (e.g. '.com'). This can be used to target
-                            websites in specific countries (e.g. '.com.au' for
-                            Australia).
-                          </small>
-                        </v-alert>
-                      </v-expansion-panel-content>
-                    </Tour>
-                  </v-expansion-panel>
-
                   <v-expansion-panel ref="industries" value="industries">
                     <Tour
                       :step="tourGetStep('filtersIndustries')"
@@ -1210,11 +1231,33 @@
                           dense
                         />
 
+                        <v-alert
+                          v-if="
+                            !selectedItems.length &&
+                            (!baseList || !baseList.query.technologies.length)
+                          "
+                          color="warning"
+                          class="mt-n2 mb-4"
+                          text
+                          dense
+                        >
+                          <small>
+                            Traffic data is unavailable unless you select one or
+                            more technologies. When setting a size limit, you
+                            will receive a random selection.
+                          </small>
+                        </v-alert>
+
                         <v-slider
                           v-model="subsetSlice"
                           label="Traffic"
                           :tick-labels="['Highest', '', 'Medium', '', 'Lowest']"
-                          :disabled="!subset || !selectedItems.length"
+                          :disabled="
+                            !subset ||
+                            (!selectedItems.length &&
+                              (!baseList ||
+                                !baseList.query.technologies.length))
+                          "
                           min="0"
                           max="4"
                           hide-details="auto"
@@ -1225,7 +1268,10 @@
                           v-model="excludeNoTraffic"
                           label="Exclude websites without traffic data"
                           hide-details
-                          :disabled="!selectedItems.length"
+                          :disabled="
+                            !selectedItems.length &&
+                            (!baseList || !baseList.query.technologies.length)
+                          "
                         />
 
                         <v-alert
@@ -1422,7 +1468,7 @@
                 @nav="tourNav"
               >
                 <v-btn
-                  :disabled="!selection"
+                  :disabled="!selection && !baseList"
                   :loading="creating"
                   color="primary"
                   large
@@ -1437,7 +1483,7 @@
               </Tour>
             </v-col>
 
-            <v-col v-if="selection" class="align-center">
+            <v-col v-if="selection && !baseList" class="align-center">
               <v-tooltip max-width="300" top>
                 <template #activator="{ on }">
                   <div v-on="on">
@@ -1598,6 +1644,7 @@ import SignIn from '~/components/SignIn.vue'
 import FaqDialog from '~/components/FaqDialog.vue'
 import Tour from '~/components/Tour.vue'
 import Bar from '~/components/Bar.vue'
+import Spinner from '~/components/Spinner.vue'
 import { lists as meta } from '~/assets/json/meta.json'
 import languages from '~/assets/json/languages.json'
 import tlds from '~/assets/json/tlds.json'
@@ -1617,6 +1664,7 @@ export default {
     FaqDialog,
     Tour,
     Bar,
+    Spinner,
   },
   data() {
     return {
@@ -1628,6 +1676,7 @@ export default {
         'Phone numbers': 'phone',
         'Social media profiles': 'social',
       },
+      baseList: null,
       compliance: 'include',
       countries: Object.keys(tlds),
       countriesEU,
@@ -1675,7 +1724,7 @@ export default {
       panelsMain: [],
       panelsSelection: [],
       panelsFilters: [],
-      loading: false,
+      loading: true,
       removeInvalid: false,
       rootPath: false,
       signInDialog: false,
@@ -1705,7 +1754,7 @@ export default {
       tourActiveStep: -1,
       tourSteps: {
         technologies: {
-          text: 'To create a list of websites, start by selecting a technology, keywords, or both.',
+          text: 'To create a list of websites, start by selecting a technology, keywords, top-level domains or a combination.',
           before: () => this.fillForm({}),
         },
         technologiesSingle: {
@@ -1742,6 +1791,14 @@ export default {
             await new Promise((resolve) => setTimeout(resolve, 700))
           },
         },
+        filtersTlds: {
+          text: 'Filter by top-level domain to only get .com or .co.uk websites, for instance. You can also enter a domain name to find its subdomains, e.g. .wordpress.com.',
+          before: async () => {
+            await this.fillForm({ tlds: '.co.uk' })
+
+            await new Promise((resolve) => setTimeout(resolve, 700))
+          },
+        },
         filters: {
           text: 'Apply filters to narrow down your search and get more relevant results. All filters are optional. The more filters you select, the fewer results you get.',
           before: () => this.fillForm({ technologies: 'shopify' }),
@@ -1761,14 +1818,6 @@ export default {
               technologies: 'shopify',
               languages: 'en,en-US',
             })
-
-            await new Promise((resolve) => setTimeout(resolve, 700))
-          },
-        },
-        filtersTlds: {
-          text: 'Filter by top-level domain to only get .com or .co.uk websites, for instance.',
-          before: async () => {
-            await this.fillForm({ technologies: 'shopify', tlds: '.co.uk' })
 
             await new Promise((resolve) => setTimeout(resolve, 700))
           },
@@ -1918,7 +1967,9 @@ export default {
     selection() {
       return (
         !this.loading &&
-        (this.selectedItems.length || this.selected.keywords.length)
+        (this.selectedItems.length ||
+          this.selected.keywords.length ||
+          this.selected.tlds.length)
       )
     },
     selectedItems() {
@@ -1999,6 +2050,9 @@ export default {
     },
     async isLoading() {
       if (!this.isLoading) {
+        this.loading = true
+
+        await this.loadBaseList()
         await this.fillForm()
       }
     },
@@ -2006,6 +2060,9 @@ export default {
       if (this.australia) {
         this.compliance = 'exclude'
       }
+    },
+    baseList() {
+      this.updateQuery()
     },
     removeInvalid() {
       this.fileChange()
@@ -2087,6 +2144,9 @@ export default {
   },
   async mounted() {
     if (!this.isLoading) {
+      this.loading = true
+
+      await this.loadBaseList()
       await this.fillForm()
 
       this.tourStart()
@@ -2192,6 +2252,7 @@ export default {
               (key) => this.selected.sets[key] !== 'excluded'
             ),
             exclusions: this.file,
+            baseListId: this.baseList && this.baseList.id,
           })
         ).data
 
@@ -2211,6 +2272,8 @@ export default {
         ...item,
         active: true,
       }
+
+      console.log({ item })
 
       const totalTechnologies =
         this.selected.technologies.length +
@@ -2579,6 +2642,7 @@ export default {
           attributes: Object.keys(this.selected.sets)
             .filter((set) => this.selected.sets[set] === 'required')
             .join(','),
+          base: (this.baseList && this.baseList.id) || undefined,
         }
 
         this.$router.replace({
@@ -2932,7 +2996,10 @@ export default {
         this.$refs.keywords.toggle()
       }
 
-      if (this.selectedItems.length || !this.selected.keywords.length) {
+      if (
+        (this.selectedItems.length || !this.selected.keywords.length) &&
+        !this.baseList
+      ) {
         this.$refs.technologies.toggle()
       }
 
@@ -2948,9 +3015,26 @@ export default {
         this.$refs.companySizes.toggle()
       }
 
+      console.log('x')
+
       this.loading = false
     },
+    async loadBaseList() {
+      if (this.$route.query.base) {
+        const { base: baseListId } = this.$route.query
+
+        try {
+          this.baseList = (
+            await this.$axios.get(`lists-site/${baseListId}`)
+          ).data
+        } catch (error) {
+          this.error = this.getErrorMessage(error)
+        }
+      }
+    },
     async tourStart() {
+      this.baseList = null
+
       if (this.tourActiveStep > 0) {
         return
       }

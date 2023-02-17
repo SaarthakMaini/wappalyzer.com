@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-sheet
-      v-if="isAdmin && user.disabled"
+      v-if="isAdmin && user.disabled === 'true'"
       color="error white--text"
       class="pb-1 text-center"
       tile

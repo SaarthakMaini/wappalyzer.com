@@ -200,11 +200,6 @@ export default {
       isAdmin: ({ user }) =>
         user.attrs.admin || (user.impersonator && user.impersonator.admin),
     }),
-    months() {
-      return Array(12)
-        .fill(0)
-        .map((_, i) => i + 1)
-    },
   },
   created() {
     if ((!this.isAdmin || this.isImpersonator) && !this.$route.params.userId) {

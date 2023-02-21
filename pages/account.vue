@@ -38,7 +38,7 @@
       </v-btn>
 
       <v-btn
-        v-if="!user.disabled"
+        v-if="user.disabled !== 'true'"
         :loading="disabling"
         color="error"
         class="mr-2 mb-4"
@@ -52,7 +52,7 @@
       </v-btn>
 
       <v-btn
-        v-if="user.disabled"
+        v-if="user.disabled === 'true'"
         :loading="enabling"
         color="success lighten-5 success--text"
         class="mr-2 mb-4"

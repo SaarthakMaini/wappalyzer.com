@@ -189,6 +189,22 @@
       {
         "text": "API access",
         "icon": "mdiConsole"
+      },
+      {
+        "text": "Enumerate subdomains",
+        "icon": "mdiDomain"
+      },
+      {
+        "text": "Real-time analysis",
+        "icon": "mdiClockFast"
+      },
+      {
+        "text": "Monitor websites",
+        "icon": "mdiBellOutline"
+      },
+      {
+        "text": "Custom reports",
+        "icon": "mdiChartTimelineVariantShimmer"
       }
     ],
     "products": [

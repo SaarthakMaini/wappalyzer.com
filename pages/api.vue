@@ -21,6 +21,7 @@
           <v-tabs v-model="tabs">
             <v-tab><small>Technology lookup</small></v-tab>
             <v-tab><small>Lead lists</small></v-tab>
+            <v-tab><small>Subdomain finder</small></v-tab>
             <v-tab><small>Email verification</small></v-tab>
           </v-tabs>
 
@@ -202,6 +203,46 @@
               </v-card-text>
             </v-tab-item>
 
+            <v-tab-item>
+              <v-card-text style="max-width: 600px">
+                <p class="body-2">Enumerate subdomains for a domain.</p>
+
+                <v-btn to="/docs/api/v2/subdomains" color="primary" depressed>
+                  Get started
+                  <v-icon right>
+                    {{ mdiArrowRight }}
+                  </v-icon>
+                </v-btn>
+              </v-card-text>
+
+              <v-divider />
+
+              <v-card-title class="subtitle-2">Example request</v-card-title>
+              <v-card-text>
+                <pre><Code wrap>curl -H "x-api-key: &lt;your api key&gt;" "https://api.wappalyzer.com/v2/subdomains/?domains=example.com"</Code></pre>
+              </v-card-text>
+
+              <v-divider />
+
+              <v-card-title class="subtitle-2">Example response</v-card-title>
+
+              <v-card-text>
+                <pre><Code>{
+  "subdomains": {
+    "status.example.com": {
+      "createdAt": 1670285563,
+      "updatedAt": 1675604779
+    },
+    ...
+    "shop.example.com": {
+      "createdAt": 1670285563,
+      "updatedAt": 1675604779
+    }
+  },
+  "moreAfter": "shop.example.com"
+}</Code></pre>
+              </v-card-text>
+            </v-tab-item>
             <v-tab-item>
               <v-card-text style="max-width: 600px">
                 <p class="body-2">

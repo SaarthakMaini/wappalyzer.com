@@ -174,12 +174,12 @@
                 </v-sheet>
 
                 <v-sheet
-                  v-if="isSignedIn && !isMember && organisations.length"
+                  v-if="isSignedIn && !isMember && activeOrganisations.length"
                   tile
                 >
                   <v-list nav dense>
                     <v-list-item
-                      v-for="organisation in organisations"
+                      v-for="organisation in activeOrganisations"
                       :key="organisation.id"
                       @click="signInAs(organisation.organisationId)"
                     >
@@ -398,6 +398,8 @@ export default {
         !user.impersonator.admin,
       impersonator: ({ user }) => user.impersonator,
       organisations: ({ organisations }) => organisations.memberOf,
+      activeOrganisations: ({ organisations }) =>
+        organisations.memberOf.filter(({ status }) => status === 'Active'),
     }),
   },
   watch: {

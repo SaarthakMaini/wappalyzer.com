@@ -61,6 +61,10 @@
         ]
       },
       {
+        "title": "Subdomain finder",
+        "to": "/docs/api/v2/subdomains/"
+      },
+      {
         "title": "Email verification",
         "to": "/docs/api/v2/verify/"
       }

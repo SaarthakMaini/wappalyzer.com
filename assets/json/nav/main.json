@@ -10,7 +10,7 @@
       },
       {
         "title": "Lead lists",
-        "subtitle": "Create a list of sites for a technology or keyword",
+        "subtitle": "Create a list of sites for a technology, keyword or domain",
         "icon": "mdiFilterVariant",
         "to": "/lists/"
       },

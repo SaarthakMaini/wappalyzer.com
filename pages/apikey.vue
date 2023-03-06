@@ -170,7 +170,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="accent" text @click="raemoveSecretDialog = false">
+            <v-btn color="accent" text @click="removeSecretDialog = false">
               Cancel
             </v-btn>
             <v-btn

@@ -3,32 +3,25 @@
     <Page
       :title="title"
       :seo-title="
-        technology
-          ? technology.categories.find(({ slug }) =>
-              ['payment-processors', 'buy-now-pay-later'].includes(slug)
-            )
-            ? `Stores that accept ${title}`
-            : technology.categories.find(({ slug }) => slug === 'ecommerce')
-            ? `Find ${title} stores`
-            : technology.saas
-            ? `Find ${title} customers`
-            : `Websites using ${title}`
+        technology.categories.find(({ slug }) =>
+          ['payment-processors', 'buy-now-pay-later'].includes(slug)
+        )
+          ? `Stores that accept ${title}`
+          : technology.categories.find(({ slug }) => slug === 'ecommerce')
+          ? `Find ${title} stores`
+          : technology.saas
+          ? `Find ${title} customers`
           : `Websites using ${title}`
       "
       :crumbs="crumbs"
       :head="{
-        meta: `Download a list of websites${
-          technology ? ` using ${technology.name}` : ''
-        } with email addresses, phone numbers and LinkedIn profiles.`,
+        meta: `Download a list of websites using ${technology.name}} with email addresses, phone numbers and LinkedIn profiles.`,
       }"
       no-head
       :hero="false"
     >
       <h1 class="d-flex align-center mt-n3">
-        <TechnologyIcon
-          :icon="technology ? technology.icon : 'default.svg'"
-          large
-        />
+        <TechnologyIcon :icon="technology.icon || 'default.svg'" large />
 
         {{ title }}
       </h1>
@@ -371,7 +364,7 @@
         </p>
 
         <v-row class="mb-12">
-          <v-col cols="12" md="6" class="py-0">
+          <v-col v-if="topIpCountries.length" cols="12" md="6" class="py-0">
             <v-card>
               <v-card-title class="subtitle-2">Countries</v-card-title>
               <v-card-text class="pb-8">
@@ -384,7 +377,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="6" class="py-0">
+          <v-col v-if="topLanguages.length" cols="12" md="6" class="py-0">
             <v-card>
               <v-card-title class="subtitle-2">Languages</v-card-title>
               <v-card-text class="pb-8">
@@ -565,7 +558,6 @@ export default {
       creatingList: false,
       createListError: false,
       createListDialog: false,
-
       mdiFilterVariant,
       mdiOpenInNew,
       mdiMagnify,
@@ -682,7 +674,7 @@ export default {
     },
     maxHits() {
       return (
-        Object.values(this.technology.topHostnames).reduce(
+        Object.values(this.technology.topHostnames || []).reduce(
           (total, { hits }) => (total = Math.max(total, hits)),
           0
         ) || 1
@@ -690,7 +682,7 @@ export default {
     },
     maxHostnames() {
       return (
-        Object.values(this.technology.alternatives).reduce(
+        Object.values(this.technology.alternatives || []).reduce(
           (total, { hostnames }) => (total = Math.max(total, hostnames)),
           0
         ) || 1
@@ -698,13 +690,17 @@ export default {
     },
     totalHostnames() {
       return (
-        Object.values(this.technology.alternatives).reduce(
+        Object.values(this.technology.alternatives || []).reduce(
           (total, { hostnames }) => (total += hostnames),
           0
         ) || 1
       )
     },
     topIpCountries() {
+      if (!this.technology.topIpCountries) {
+        return []
+      }
+
       const totalHostnames = Object.keys(this.technology.topIpCountries).reduce(
         (sum, ipCountry) => sum + this.technology.topIpCountries[ipCountry],
         0
@@ -734,6 +730,10 @@ export default {
       ]
     },
     topLanguages() {
+      if (!this.technology.topLanguages) {
+        return []
+      }
+
       const totalHostnames = Object.keys(this.technology.topLanguages).reduce(
         (sum, language) => sum + this.technology.topLanguages[language],
         0
@@ -782,7 +782,7 @@ export default {
       ]
     },
     trendStartDate() {
-      const yearMonth = [...this.technology.trend].sort(
+      const yearMonth = [...(this.technology.trend || [])].sort(
         ({ yearMonth: a }, { yearMonth: b }) => (a > b ? 1 : -1)
       )[0].yearMonth
 
@@ -800,18 +800,20 @@ export default {
     trend() {
       return [
         ['Month', 'Websites', 'Traffic'],
-        ...this.technology.trend.map(({ yearMonth, hostnames, hits }) => {
-          const month = yearMonth.toString().slice(2, 4)
-          const year = `20${yearMonth.toString().slice(0, 2)}`
+        ...(this.technology.trend || []).map(
+          ({ yearMonth, hostnames, hits }) => {
+            const month = yearMonth.toString().slice(2, 4)
+            const year = `20${yearMonth.toString().slice(0, 2)}`
 
-          const date = new Date()
+            const date = new Date()
 
-          date.setTime(0)
-          date.setFullYear(year)
-          date.setMonth(month)
+            date.setTime(0)
+            date.setFullYear(year)
+            date.setMonth(month)
 
-          return [date, hostnames, hits]
-        }),
+            return [date, hostnames, hits]
+          }
+        ),
       ]
     },
     lists() {

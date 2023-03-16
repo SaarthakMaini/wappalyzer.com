@@ -2273,8 +2273,6 @@ export default {
         active: true,
       }
 
-      console.log({ item })
-
       const totalTechnologies =
         this.selected.technologies.length +
         this.selected.categories.reduce(
@@ -3014,8 +3012,6 @@ export default {
       if (this.selected.companySizes.length) {
         this.$refs.companySizes.toggle()
       }
-
-      console.log('x')
 
       this.loading = false
     },

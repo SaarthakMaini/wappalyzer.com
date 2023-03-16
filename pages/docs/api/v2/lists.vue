@@ -676,7 +676,7 @@
                 <code>technologies</code>
               </td>
               <td class="pt-4">
-                <p>Array of technologies to filter by.</p>
+                <p>Array of technologies to filter by (no more than 100).</p>
 
                 <v-card class="my-4" flat outlined>
                   <v-simple-table>
@@ -733,6 +733,28 @@
                     </tbody>
                   </v-simple-table>
                 </v-card>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>categories</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  Array of category slugs to filter by (e.g.
+                  <code>payment-processors</code>). Refer to the full
+                  <a
+                    href="https://api.wappalyzer.com/v2/categories/"
+                    target="_blank"
+                    >list of categories</a
+                  >
+                  (JSON).
+                </p>
+
+                <p>
+                  If a category includes more than 100 technologies, only the
+                  top 100 technologies will be selected.
+                </p>
               </td>
             </tr>
             <tr>

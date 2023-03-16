@@ -608,8 +608,6 @@ export default {
 
         return [header, ...csv]
       } catch (error) {
-        console.log(error)
-
         this.previewError = this.getErrorMessage(error)
       }
 
@@ -813,8 +811,6 @@ export default {
         return
       }
 
-      console.log(file)
-
       if (file !== this.inputFile) {
         this.inputFile = file ? await file.text() : ''
 
@@ -885,8 +881,6 @@ export default {
           )
         }
       } catch (error) {
-        console.log(error)
-
         this.fileErrors = [this.getErrorMessage(error)]
       }
 

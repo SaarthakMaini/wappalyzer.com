@@ -3,11 +3,13 @@
     <Page
       :title="title"
       :seo-title="
+        technology.categories &&
         technology.categories.find(({ slug }) =>
           ['payment-processors', 'buy-now-pay-later'].includes(slug)
         )
           ? `Stores that accept ${title}`
-          : technology.categories.find(({ slug }) => slug === 'ecommerce')
+          : technology.categories &&
+            technology.categories.find(({ slug }) => slug === 'ecommerce')
           ? `Find ${title} stores`
           : technology.saas
           ? `Find ${title} customers`
@@ -663,11 +665,12 @@ export default {
       return [
         { title: 'Technologies', to: '/technologies/' },
         {
-          title: this.technology
-            ? this.technology.categories.find(
-                ({ slug }) => slug === this.categorySlug
-              ).name
-            : this.categorySlug,
+          title:
+            this.technology && this.technology.categories
+              ? this.technology.categories.find(
+                  ({ slug }) => slug === this.categorySlug
+                ).name
+              : this.categorySlug,
           to: `/technologies/${this.categorySlug}/`,
         },
       ]

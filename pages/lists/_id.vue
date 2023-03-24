@@ -834,6 +834,17 @@
                       </tr>
                       <tr
                         v-if="
+                          ['exclude', 'merge'].includes(list.query.subdomains)
+                        "
+                      >
+                        <th width="40%">Subdomains</th>
+                        <td v-if="list.query.subdomains === 'exclude'">
+                          Exclude
+                        </td>
+                        <td v-else>Combine</td>
+                      </tr>
+                      <tr
+                        v-if="
                           list.query.technologies.length &&
                           list.query.excludeNoTraffic
                         "
@@ -1384,6 +1395,10 @@ export default {
         subset:
           this.list.query.subset && this.list.query.subset !== 500000
             ? this.list.query.subset.toString()
+            : undefined,
+        subdomains:
+          this.list.query.subdomains !== 'include'
+            ? this.list.query.subdomains
             : undefined,
         traffic: this.list.query.subsetSlice
           ? this.list.query.subsetSlice.toString()

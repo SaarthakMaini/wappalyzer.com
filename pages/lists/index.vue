@@ -426,143 +426,205 @@
                       @nav="tourNav"
                     >
                       <v-expansion-panel-header class="subtitle-2">
-                        Top-level domains
+                        Domains
                       </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        <p>
-                          Target countries by top-level domain. You can also
-                          enter a domain name to create a list of subdomains
-                          (e.g. '.wordpress.com').
-                        </p>
+                      <v-expansion-panel-content class="no-x-padding">
+                        <div class="mx-6">
+                          <p>
+                            Target countries by top-level domain. You can also
+                            enter a domain name to create a list of subdomains
+                            (e.g. '.wordpress.com').
+                          </p>
 
-                        <v-row>
-                          <v-col>
-                            <v-select
-                              ref="country"
-                              v-model="selectedCountry"
-                              :items="countries"
-                              class="mb-4 pt-0"
-                              label="Select a country"
-                              hide-details
-                              outlined
-                              dense
-                              eager
-                            />
-                          </v-col>
-                          <v-col>
-                            <v-form ref="form" @submit.prevent="addTld">
-                              <v-text-field
-                                v-model="tld"
-                                :error-messages="tldErrors"
-                                :append-icon="mdiPlus"
-                                placeholder=".com"
-                                class="pt-0"
-                                hide-details="auto"
+                          <v-row>
+                            <v-col>
+                              <v-select
+                                ref="country"
+                                v-model="selectedCountry"
+                                :items="countries"
+                                class="mb-4 pt-0"
+                                label="Select a country"
+                                hide-details
                                 outlined
                                 dense
-                                @click:append="addTld"
+                                eager
                               />
-                            </v-form>
-                          </v-col>
-                        </v-row>
+                            </v-col>
+                            <v-col>
+                              <v-form ref="form" @submit.prevent="addTld">
+                                <v-text-field
+                                  v-model="tld"
+                                  :error-messages="tldErrors"
+                                  :append-icon="mdiPlus"
+                                  placeholder=".com"
+                                  class="pt-0"
+                                  hide-details="auto"
+                                  outlined
+                                  dense
+                                  @click:append="addTld"
+                                />
+                              </v-form>
+                            </v-col>
+                          </v-row>
 
-                        <v-select
-                          v-if="selectedCountry"
-                          ref="tld"
-                          :items="tlds"
-                          class="mb-8"
-                          label="Select a top-level-domain"
-                          hide-details
-                          outlined
-                          dense
-                          eager
-                        >
-                          <template #prepend-item>
-                            <v-list-item ripple @click="toggleTlds">
-                              <v-list-item-action>
-                                <v-icon
-                                  :color="
-                                    selected.tlds.length > 0 ? 'primary' : ''
-                                  "
-                                >
-                                  {{
-                                    tlds.every(({ active }) => active)
-                                      ? mdiCheckboxMarked
-                                      : tlds.some(({ active }) => active)
-                                      ? mdiMinusBoxOutline
-                                      : mdiCheckboxBlankOutline
-                                  }}
-                                </v-icon>
-                              </v-list-item-action>
-
-                              <v-list-item-content>
-                                <v-list-item-title>
-                                  Select All
-                                </v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-
-                            <v-divider class="mt-2" />
-                          </template>
-
-                          <template #item="{ item }">
-                            <v-list-item ripple @click="toggleTld(item)">
-                              <v-list-item-action>
-                                <v-icon :color="item.active ? 'primary' : ''">
-                                  {{
-                                    item.active
-                                      ? mdiCheckboxMarked
-                                      : mdiCheckboxBlankOutline
-                                  }}
-                                </v-icon>
-                              </v-list-item-action>
-
-                              <v-list-item-content>
-                                {{ item.text }}
-                              </v-list-item-content>
-                            </v-list-item>
-                          </template>
-                        </v-select>
-
-                        <v-chip-group
-                          v-if="selected.tlds.length"
-                          class="mt-n1 mb-4"
-                          column
-                        >
-                          <v-tooltip
-                            v-for="(item, i) in selected.tlds"
-                            :key="i"
-                            bottom
+                          <v-select
+                            v-if="selectedCountry"
+                            ref="tld"
+                            :items="tlds"
+                            class="mb-8"
+                            label="Select a top-level-domain"
+                            hide-details
+                            outlined
+                            dense
+                            eager
                           >
-                            <template #activator="{ on }">
-                              <v-chip
-                                color="primary lighten-1 primary--text"
-                                label
-                                close
-                                v-on="item.parent ? on : undefined"
-                                @click:close="toggleTld(item)"
-                              >
-                                {{ item.value }}
-                              </v-chip>
+                            <template #prepend-item>
+                              <v-list-item ripple @click="toggleTlds">
+                                <v-list-item-action>
+                                  <v-icon
+                                    :color="
+                                      selected.tlds.length > 0 ? 'primary' : ''
+                                    "
+                                  >
+                                    {{
+                                      tlds.every(({ active }) => active)
+                                        ? mdiCheckboxMarked
+                                        : tlds.some(({ active }) => active)
+                                        ? mdiMinusBoxOutline
+                                        : mdiCheckboxBlankOutline
+                                    }}
+                                  </v-icon>
+                                </v-list-item-action>
+
+                                <v-list-item-content>
+                                  <v-list-item-title>
+                                    Select All
+                                  </v-list-item-title>
+                                </v-list-item-content>
+                              </v-list-item>
+
+                              <v-divider class="mt-2" />
                             </template>
 
-                            {{ item.parent }}
-                          </v-tooltip>
-                        </v-chip-group>
+                            <template #item="{ item }">
+                              <v-list-item ripple @click="toggleTld(item)">
+                                <v-list-item-action>
+                                  <v-icon :color="item.active ? 'primary' : ''">
+                                    {{
+                                      item.active
+                                        ? mdiCheckboxMarked
+                                        : mdiCheckboxBlankOutline
+                                    }}
+                                  </v-icon>
+                                </v-list-item-action>
 
-                        <v-alert
-                          color="secondary"
-                          border="left"
-                          class="mt-4 mb-2"
-                          dense
+                                <v-list-item-content>
+                                  {{ item.text }}
+                                </v-list-item-content>
+                              </v-list-item>
+                            </template>
+                          </v-select>
+
+                          <v-chip-group
+                            v-if="selected.tlds.length"
+                            class="mt-n1 mb-4"
+                            column
+                          >
+                            <v-tooltip
+                              v-for="(item, i) in selected.tlds"
+                              :key="i"
+                              bottom
+                            >
+                              <template #activator="{ on }">
+                                <v-chip
+                                  color="primary lighten-1 primary--text"
+                                  label
+                                  close
+                                  v-on="item.parent ? on : undefined"
+                                  @click:close="toggleTld(item)"
+                                >
+                                  {{ item.value }}
+                                </v-chip>
+                              </template>
+
+                              {{ item.parent }}
+                            </v-tooltip>
+                          </v-chip-group>
+
+                          <v-alert
+                            color="secondary"
+                            border="left"
+                            class="mt-4 mb-2"
+                            dense
+                          >
+                            <small>
+                              The top-level domain is the last part of a domain
+                              name (e.g. '.com'). This can be used to target
+                              websites in specific countries (e.g. '.com.au' for
+                              Australia).
+                            </small>
+                          </v-alert>
+                        </div>
+
+                        <v-divider class="my-6" />
+
+                        <div class="mx-6">
+                          <p>
+                            Include or exclude subdomains in the results. Select
+                            'combine' to merge subdomain data (such as
+                            identified languages and traffic) into a single
+                            result.
+                          </p>
+                        </div>
+
+                        <Tour
+                          :step="tourGetStep('subdomains')"
+                          :steps="Object.keys(tourSteps).length"
+                          :text="tourGetText('subdomains')"
+                          :active-step="tourActiveStep"
+                          @nav="tourNav"
                         >
-                          <small>
-                            The top-level domain is the last part of a domain
-                            name (e.g. '.com'). This can be used to target
-                            websites in specific countries (e.g. '.com.au' for
-                            Australia).
-                          </small>
-                        </v-alert>
+                          <v-simple-table>
+                            <tbody>
+                              <tr>
+                                <th />
+                                <th width="20%">Exclude</th>
+                                <th width="20%">Include</th>
+                                <th width="20%">Combine</th>
+                              </tr>
+                              <tr>
+                                <td>Subdomains</td>
+                                <td class="text-center">
+                                  <v-radio-group
+                                    v-model="subdomains"
+                                    class="ma-0"
+                                    hide-details
+                                  >
+                                    <v-radio value="exclude" class="ma-0" />
+                                  </v-radio-group>
+                                </td>
+                                <td class="text-center">
+                                  <v-radio-group
+                                    v-model="subdomains"
+                                    class="ma-0"
+                                    hide-details
+                                  >
+                                    <v-radio value="include" class="ma-0" />
+                                  </v-radio-group>
+                                </td>
+                                <td class="text-center">
+                                  <v-radio-group
+                                    v-model="subdomains"
+                                    class="ma-0"
+                                    hide-details
+                                  >
+                                    <v-radio value="merge" class="ma-0" />
+                                  </v-radio-group>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </v-simple-table>
+                        </Tour>
                       </v-expansion-panel-content>
                     </Tour>
                   </v-expansion-panel>
@@ -1724,6 +1786,7 @@ export default {
       panelsMain: [],
       panelsSelection: [],
       panelsFilters: [],
+      subdomains: 'include',
       loading: true,
       removeInvalid: false,
       rootPath: false,
@@ -1793,6 +1856,14 @@ export default {
         },
         filtersTlds: {
           text: 'Filter by top-level domain to only get .com or .co.uk websites, for instance. You can also enter a domain name to find its subdomains, e.g. .wordpress.com.',
+          before: async () => {
+            await this.fillForm({ tlds: '.co.uk' })
+
+            await new Promise((resolve) => setTimeout(resolve, 700))
+          },
+        },
+        subdomains: {
+          text: 'Subdomains are considered separate websites. They can be excluded from results, included (default) or combined (merging subdomains into a single result).',
           before: async () => {
             await this.fillForm({ tlds: '.co.uk' })
 
@@ -2101,6 +2172,9 @@ export default {
     excludeNoTraffic() {
       this.updateQuery()
     },
+    subdomains() {
+      this.updateQuery()
+    },
     excludeMultilingual() {
       this.updateQuery()
     },
@@ -2231,6 +2305,7 @@ export default {
               rootPath: this.rootPath || false,
               subset: this.subset || 500000,
               subsetSlice: this.subsetSlice || 0,
+              subdomains: this.subdomains || 'include',
               excludeNoTraffic: this.excludeNoTraffic,
               excludeMultilingual: this.excludeMultilingual,
               minAge: this.unlimitedAge ? 0 : this.minAge,
@@ -2606,6 +2681,8 @@ export default {
             this.subset && this.subset !== 500000
               ? this.subset.toString()
               : undefined,
+          subdomains:
+            this.subdomains !== 'include' ? this.subdomains : undefined,
           traffic: this.subsetSlice ? this.subsetSlice.toString() : undefined,
           notraffic: this.excludeNoTraffic ? 'exclude' : undefined,
           multilingual: this.excludeMultilingual ? 'exclude' : undefined,
@@ -2690,6 +2767,8 @@ export default {
 
       this.listSizeEstimate /= age ? 1 + age * 0.5 : 1
 
+      this.listSizeEstimate /= this.subdomains !== 'include' ? 1.8 : 1
+
       this.listSizeEstimate /= this.excludeNoTraffic ? 1.8 : 1
 
       this.listSizeEstimate /= this.matchAllTechnologies === 'or' ? 1 : 8
@@ -2722,6 +2801,7 @@ export default {
         languages,
         filters,
         selection,
+        subdomains,
         contacts,
         keywords,
         industries,
@@ -2770,6 +2850,10 @@ export default {
             ) || null
 
       this.subsetSlice = Math.max(0, Math.min(4, parseInt(traffic || 0, 10)))
+
+      if (subdomains && subdomains !== 'include') {
+        this.subdomains = subdomains
+      }
 
       this.excludeNoTraffic = notraffic === 'exclude'
 

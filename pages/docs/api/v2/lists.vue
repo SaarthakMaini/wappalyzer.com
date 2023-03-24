@@ -1000,6 +1000,24 @@
             </tr>
             <tr>
               <td>
+                <code>subdomains</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  Include or exclude subdomain in the results. One of
+                  <code>include</code> (default), <code>exclude</code> or
+                  <code>merge</code>.
+                </p>
+
+                <p>
+                  By selecting <code>merge</code>, data for subdomains (such as
+                  languages and traffic) on a domain will be combined into a
+                  single result.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <code>excludeNoTraffic</code>
               </td>
               <td class="pt-4">

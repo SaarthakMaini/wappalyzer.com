@@ -1044,6 +1044,18 @@
             </tr>
             <tr>
               <td>
+                <code>excludeListId</code>
+              </td>
+              <td class="pt-4">
+                <p>
+                  ID of a list to use for exclusions, e.g.
+                  <code>lst_abcdef</code>. Any URLs that appear in this list
+                  will be excluded from the new list.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <code>baseListId</code>
               </td>
               <td class="pt-4">

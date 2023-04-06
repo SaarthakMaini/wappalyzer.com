@@ -151,11 +151,6 @@ export default {
           .includes(match)
       )
 
-      console.log(
-        this.query.toLowerCase().trim(),
-        technologies.map((a) => a.name.toLowerCase().trim())
-      )
-
       if (technologies.length <= 50) {
         this.results.push(
           ...technologies.map((technology) => ({

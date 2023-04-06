@@ -150,27 +150,36 @@
                                 :key="item.slug"
                               >
                                 <td class="pl-6">
-                                  <div
+                                  <v-hover
                                     v-if="item.type === 'technology'"
-                                    class="d-flex align-center py-2"
+                                    v-slot="{ hover }"
                                   >
-                                    <TechnologyIcon :icon="item.icon" />
-                                    <span>{{ item.name }}</span>
-                                  </div>
-                                  <v-row v-else>
-                                    <v-col class="flex-grow-1 flex-shrink-0">
-                                      {{ item.name }}
-                                    </v-col>
-                                    <v-col
-                                      class="pr-0 text-right flex-grow-0 flex-shrink-1"
-                                    >
-                                      <small
-                                        >(x{{
-                                          Math.min(100, item.technologiesCount)
-                                        }})</small
+                                    <div class="d-flex align-center py-2">
+                                      <TechnologyIcon :icon="item.icon" />
+                                      <span>{{ item.name }}</span>
+                                      &nbsp;
+                                      <small v-on="on" class="text--disabled">
+                                        ({{ formatNumber(item.hostnames, true)
+                                        }}<span :class="hover ? '' : 'd-none'">
+                                          websites</span
+                                        >)</small
                                       >
-                                    </v-col>
-                                  </v-row>
+                                    </div>
+                                  </v-hover>
+                                  <v-hover v-else v-slot="{ hover }">
+                                    <div>
+                                      <span>
+                                        {{ item.name }}
+                                      </span>
+                                      <small v-on="on" class="text--disabled">
+                                        ({{
+                                          Math.min(100, item.technologiesCount)
+                                        }}<span :class="hover ? '' : 'd-none'">
+                                          technologies</span
+                                        >)</small
+                                      >
+                                    </div>
+                                  </v-hover>
                                 </td>
                                 <td>
                                   <v-row
@@ -2962,7 +2971,7 @@ export default {
               ;[technologySlug, version] = technologySlug.split(operator)
             }
 
-            const { slug, name, icon, categories, versioned } = (
+            const { slug, name, icon, categories, versioned, hostnames } = (
               await this.$axios.get(`technologies/${technologySlug}`)
             ).data
 
@@ -2975,6 +2984,7 @@ export default {
               operator,
               version,
               versioned,
+              hostnames,
             })
           }
         }

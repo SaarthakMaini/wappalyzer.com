@@ -193,6 +193,11 @@
                 {{
                   !expanded[attributeKey] && value.text.length > 250
                     ? `${value.text.slice(0, 250)}...`
+                    : typeof value.text === 'number' &&
+                      attributeKey !== 'companyFounded'
+                    ? attributeKey === 'fundingTotalUsd'
+                      ? formatCurrency(value.text)
+                      : formatNumber(value.text)
                     : value.text
                 }}
 

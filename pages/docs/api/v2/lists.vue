@@ -1052,6 +1052,12 @@
                   <code>lst_abcdef</code>. Any URLs that appear in this list
                   will be excluded from the new list.
                 </p>
+
+                <p>
+                  This function is recursive, i.e. if an excluded list excludes
+                  another list, both are excluded. Limited to ten lists or
+                  500,000 websites.
+                </p>
               </td>
             </tr>
             <tr>

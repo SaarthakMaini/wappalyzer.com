@@ -208,7 +208,10 @@
                                         class="ma-0"
                                         hide-details="auto"
                                         :rules="[
-                                          (v) => !v || /^(\d.?){1,3}$/.test(v),
+                                          (v) =>
+                                            !v ||
+                                            item.operator === '=' ||
+                                            /^(\d.?){1,3}$/.test(v),
                                         ]"
                                         dense
                                       />

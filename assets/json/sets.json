@@ -42,12 +42,15 @@
     "attributes": [
       { "name": "company name", "key": "companyName", "description": "Company name." },
       { "name": "inferred company name", "key": "inferredCompanyName", "description": "Company name, inferred from website content (best guess)." },
+      { "name": "stock symbol", "key": "stockSymbol", "description": "The company's stock symbol, e.g. NASDAQ:AAPL." },
       { "key": "industry", "description": "Company industry, e.g. 'Design'." },
       { "key": "about", "description": "Company description." },
       { "key": "locations", "description": "Business locations." },
       { "name": "company size", "key": "companySize", "description": "Number of employees at the company." },
       { "name": "company type", "key": "companyType", "description": "The type of company, e.g. 'Public Company' or 'Privately Held'." },
       { "name": "company founded", "key": "companyFounded", "description": "The year the company was founded." },
+      { "name": "funding total", "key": "fundingTotalUsd", "description": "The total amount of funding raised, in USD." },
+      { "name": "funding rounds", "key": "fundingRounds", "description": "The number of funding rounds." },
       { "name": "people", "key": "employees", "description": "Names and titles of people at the company." }
     ],
     "pro": true
@@ -103,7 +106,9 @@
     "key": "signals",
     "name": "Signals",
     "attributes": [
-      { "name": "Technology spend", "key": "technologySpend", "description": "Estimated technology spend (very low, low, medium, high or very high)." }
+      { "name": "Technology spend", "key": "technologySpend", "description": "Estimated technology spend (very low, low, medium, high or very high)." },
+      { "name": "Semrush global rank", "key": "semrushGlobalRank", "description": "Global website rank by Semrush (a lower number means more traffic)." },
+      { "name": "Semrush monthly visits", "key": "semrushVisits", "description": "Estimated monthly website visits by Semrush." }
     ],
     "pro": true
   },

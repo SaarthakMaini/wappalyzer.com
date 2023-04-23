@@ -1,6 +1,7 @@
 <template>
   <div>
     <Page
+      v-if="technology && technology.name"
       :title="title"
       :seo-title="
         technology.categories &&
@@ -366,7 +367,12 @@
         </p>
 
         <v-row class="mb-12">
-          <v-col v-if="topIpCountries.length" cols="12" md="6" class="py-0">
+          <v-col
+            v-if="topIpCountries && topIpCountries.length"
+            cols="12"
+            md="6"
+            class="py-0"
+          >
             <v-card>
               <v-card-title class="subtitle-2">Countries</v-card-title>
               <v-card-text class="pb-8">
@@ -379,7 +385,12 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col v-if="topLanguages.length" cols="12" md="6" class="py-0">
+          <v-col
+            v-if="topLanguages && topLanguages.length"
+            cols="12"
+            md="6"
+            class="py-0"
+          >
             <v-card>
               <v-card-title class="subtitle-2">Languages</v-card-title>
               <v-card-text class="pb-8">
@@ -409,7 +420,9 @@
           {{ new Date().getFullYear() }}.
         </p>
 
-        <template v-if="technology.alternatives.length">
+        <template
+          v-if="technology.alternatives && technology.alternatives.length"
+        >
           <v-card class="my-4">
             <v-card-text class="px-0">
               <v-simple-table>
@@ -542,9 +555,10 @@ export default {
   async asyncData({ route, $axios, redirect }) {
     const { category, slug } = route.params
 
-    const technology = (await $axios.get(`technologies/${slug}`)).data
+    const technology = (await $axios.get(`technologies/${slug}`)).data || {}
 
     if (
+      technology.categories &&
       technology.categories.length &&
       !technology.categories.some(({ slug }) => slug === category)
     ) {
@@ -575,7 +589,7 @@ export default {
       mdiCurrencyUsd,
       mdiCurrencyUsdOff,
       signInDialog: false,
-      technology: false,
+      technology: {},
     }
   },
   computed: {
@@ -645,7 +659,12 @@ export default {
           '@type': 'Organization',
           url: this.technology.website,
         },
-        applicationCategory: this.technology.categories[0].name,
+        applicationCategory:
+          this.technology &&
+          this.technology.categories &&
+          this.technology.categories.length
+            ? this.technology.categories[0].name
+            : '',
       }
     },
     categorySlug() {
@@ -874,7 +893,7 @@ export default {
                 subsetSlice: 4,
               },
             },
-            ...this.technology.categories.map((category) => ({
+            ...(this.technology.categories || []).map((category) => ({
               text: `Top 500 websites for every technology in the category ${category.name}`,
               query: {
                 categories: [category],

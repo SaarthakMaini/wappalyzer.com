@@ -410,7 +410,7 @@ export default {
     Spinner,
   },
   async asyncData({ $axios }) {
-    return { categories: (await $axios.get('categories')).data }
+    return { categories: (await $axios.get('categories')).data || [] }
   },
   data() {
     return {

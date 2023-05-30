@@ -313,6 +313,19 @@
             <v-spacer />
 
             <v-btn
+              v-if="isAdmin && list.status === 'Failed'"
+              :loading="calculating"
+              color="success"
+              outlined
+              @click="calculate"
+            >
+              <v-icon left>
+                {{ mdiReload }}
+              </v-icon>
+              Recalculate
+            </v-btn>
+
+            <v-btn
               v-if="list.status !== 'Complete'"
               color="error"
               class="ml-2"

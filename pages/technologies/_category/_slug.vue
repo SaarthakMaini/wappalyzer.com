@@ -232,7 +232,7 @@
 
         <template v-if="technology.hostnames < 10000000">
           <p class="mb-6">
-            These are the top websites usings {{ technology.name }} based on
+            These are the top websites using {{ technology.name }} based on
             traffic.
           </p>
 
